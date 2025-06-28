@@ -317,6 +317,35 @@
     @apply mx-4 sm:mx-6 lg:px-8;
   }
 
+  /* ✅ ADD: Performance optimization untuk Framer Motion */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  .will-change-auto {
+    will-change: auto;
+  }
+
+  /* ✅ ADD: Hardware acceleration untuk smooth animations */
+  .gpu-accelerated {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* ✅ ADD: Optimasi untuk reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .gpu-accelerated {
+      will-change: auto;
+      transform: none;
+    }
+  }
+
   /* ===== SHADOW UTILITIES - MENGGUNAKAN CSS VARIABLES ===== */
   .shadow-elevation-1 { box-shadow: var(--shadow-soft); }
   .shadow-elevation-2 { box-shadow: var(--shadow-medium); }

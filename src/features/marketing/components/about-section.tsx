@@ -46,12 +46,12 @@ const AboutSection = () => {
               sizes="(min-width: 1024px) 550px, (min-width: 768px) 448px, (min-width: 640px) 384px, 320px"
             />
 
-            {/* ✅ FIXED: Feature Badges - Using proper semantic variant */}
+            {/* ✅ FIXED: Feature Badges - Using proper semantic variant - 🔧 MINIMAL FIX */}
             <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mt-6 lg:hidden">
               {features.map((feature, index) => (
                 <Animate key={`mobile-${index}`} animation="scaleIn" delay={index * 0.1}>
                   <Badge
-                    variant="primary-subtle"
+                    variant="secondary-subtle" // ✅ FIXED: Changed from "primary-subtle" to existing variant
                     size="sm"
                     animation="scale"
                     className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium"
@@ -99,12 +99,12 @@ const AboutSection = () => {
             </Text>
           </div>
 
-          {/* ✅ FIXED: Feature Badges - Using proper semantic variant */}
+          {/* ✅ FIXED: Feature Badges - Using proper semantic variant - 🔧 MINIMAL FIX */}
           <div className="flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start hidden lg:flex">
             {features.map((feature, index) => (
               <Animate key={index} animation="scaleIn" delay={index * 0.1}>
                 <Badge
-                  variant="primary-subtle"
+                  variant="secondary-subtle" // ✅ FIXED: Changed from "primary-subtle" to existing variant
                   size="sm"
                   animation="scale"
                   className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium"

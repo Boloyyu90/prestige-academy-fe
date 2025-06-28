@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, HTMLMotionProps } from 'framer-motion';
+// ✅ FIXED: Ganti motion dengan m untuk LazyMotion compatibility
+import { m, HTMLMotionProps } from 'framer-motion';
 import { useIntersectionObserver } from '@/shared/hooks/use-intersection-observer';
 import { cn } from "@/shared/lib/utils/cn";
 
@@ -100,7 +101,7 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
     const childrenArray = React.Children.toArray(children);
 
     return (
-      <motion.div
+      <m.div
         ref={(node) => {
           observerRef.current = node;
           if (typeof ref === 'function') ref(node);
@@ -114,13 +115,13 @@ const Grid = React.forwardRef<HTMLDivElement, GridProps>(
       >
         {stagger && animateItems
           ? childrenArray.map((child, index) => (
-            <motion.div key={index} variants={itemVariants}>
+            <m.div key={index} variants={itemVariants}>
               {child}
-            </motion.div>
+            </m.div>
           ))
           : children
         }
-      </motion.div>
+      </m.div>
     );
   }
 );

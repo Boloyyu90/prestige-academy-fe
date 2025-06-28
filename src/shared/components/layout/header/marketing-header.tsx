@@ -7,7 +7,7 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { useTheme } from 'next-themes';
 import { cn } from '@/shared/lib/utils/cn';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useScrollProgress } from '@/shared/hooks/use-scroll-progress';
 import { useActiveSection } from '@/shared/hooks/use-active-section';
 
@@ -101,7 +101,7 @@ export function MarketingHeader() {
                   >
                     {item.name}
                     {isActive && (
-                      <motion.div
+                      <m.div
                         className="absolute -bottom-2 left-0 right-0 h-0.5 bg-primary rounded-full"
                         layoutId="active-nav-link"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
@@ -138,6 +138,7 @@ export function MarketingHeader() {
                 <Button
                   variant="secondary"
                   size="default"
+                  animation="hover"
                   onClick={handleRegisterClick}
                   className="font-semibold shadow-colored-secondary"
                 >
@@ -181,8 +182,7 @@ export function MarketingHeader() {
               aria-label="Toggle mobile menu"
             >
               <div className="relative w-6 h-6">
-                {/* Menu Icon dengan animasi */}
-                <motion.div
+                <m.div
                   className="absolute inset-0 flex items-center justify-center"
                   initial={false}
                   animate={{
@@ -193,10 +193,9 @@ export function MarketingHeader() {
                   transition={{ duration: 0.2, ease: "easeInOut" }}
                 >
                   <Menu className="w-6 h-6" />
-                </motion.div>
+                </m.div>
 
-                {/* Close Icon dengan animasi */}
-                <motion.div
+                <m.div
                   className="absolute inset-0 flex items-center justify-center"
                   initial={false}
                   animate={{
@@ -207,7 +206,7 @@ export function MarketingHeader() {
                   transition={{ duration: 0.2, ease: "easeInOut" }}
                 >
                   <X className="w-6 h-6" />
-                </motion.div>
+                </m.div>
               </div>
             </button>
           </div>
@@ -217,7 +216,7 @@ export function MarketingHeader() {
       {/* Mobile menu terpisah dari kondisi scroll styling */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -268,7 +267,8 @@ export function MarketingHeader() {
                     className="relative w-12 h-6 bg-muted rounded-full p-1 transition-all duration-300 hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                     aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                   >
-                    <motion.div
+                    {/* ✅ FIXED: Theme toggle animation dengan m component */}
+                    <m.div
                       className={cn(
                         'w-4 h-4 bg-background rounded-full shadow-sm flex items-center justify-center border border-border/20',
                       )}
@@ -282,7 +282,7 @@ export function MarketingHeader() {
                       ) : (
                         <Sun className="w-2.5 h-2.5 text-yellow-500" />
                       )}
-                    </motion.div>
+                    </m.div>
                   </button>
                 </div>
 
@@ -330,7 +330,7 @@ export function MarketingHeader() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

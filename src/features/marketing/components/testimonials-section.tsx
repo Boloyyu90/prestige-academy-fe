@@ -8,7 +8,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Badge } from '@/shared/components/ui/badge';
 import { Heading, Text } from '@/shared/core/typography';
 import { Animate, useAnimationDurations } from '@/shared/core/animate';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { cn } from '@/shared/lib/utils/cn';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
@@ -71,8 +71,8 @@ const TestimonialsSection = () => {
   }, [testimonials.length]);
 
   useEffect(() => {
-    // ✅ SELARAS - Use semantic timing for autoplay
-    const interval = setInterval(goToNext, 5000);
+    // ✅ FIXED: Use semantic timing for autoplay - 🔧 MINIMAL FIX
+    const interval = setInterval(goToNext, 4800); // 4 * 1200ms (very-slow duration)
     return () => clearInterval(interval);
   }, [goToNext]);
 
@@ -116,7 +116,7 @@ const TestimonialsSection = () => {
                   const isInFrame = offset < 3;
 
                   return (
-                    <motion.div
+                    <m.div
                       key={testimonial.id}
                       className={cn(
                         "absolute flex flex-col items-center w-full max-w-xs sm:max-w-sm",
@@ -208,7 +208,7 @@ const TestimonialsSection = () => {
                           "{testimonial.content}"
                         </Text>
                       </Card>
-                    </motion.div>
+                    </m.div>
                   );
                 })}
               </div>

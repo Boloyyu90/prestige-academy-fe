@@ -5,7 +5,7 @@ import { Card } from '@/shared/components/ui/card';
 import { Section } from '@/shared/core/section';
 import { Heading, Text } from '@/shared/core/typography';
 import { Animate } from '@/shared/core/animate';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/shared/lib/utils/cn';
 
@@ -77,7 +77,7 @@ const FaqSection = () => {
             delay={0.05 * index}
           >
             <div className="group transform-gpu">
-              <motion.div
+              <m.div
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -89,7 +89,7 @@ const FaqSection = () => {
                     ? "border-primary shadow-md bg-primary/5"
                     : "border-border bg-card hover:shadow-sm hover:border-primary/30"
                 )}>
-                  <motion.button
+                  <m.button
                     className="w-full p-4 md:p-5 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset rounded-lg"
                     onClick={() => toggleFaq(faq.id)}
                     aria-expanded={openFaq === faq.id}
@@ -103,36 +103,36 @@ const FaqSection = () => {
                       {faq.question}
                     </Text>
 
-                    <motion.div
-                      className="flex-shrink-0"
-                      animate={{ rotate: openFaq === faq.id ? 180 : 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
+                    {/* ✅ FIXED: Using CSS transitions instead of framer-motion - 🔧 MINIMAL FIX */}
+                    <div className={cn(
+                      "flex-shrink-0 interactive",
+                      openFaq === faq.id ? "rotate-180" : "rotate-0"
+                    )}>
                       <ChevronDown className={cn(
                         "w-4 h-4 transition-colors duration-200",
                         openFaq === faq.id ? "text-primary" : "text-muted-foreground"
                       )} />
-                    </motion.div>
-                  </motion.button>
+                    </div>
+                  </m.button>
 
                   <AnimatePresence>
                     {openFaq === faq.id && (
-                      <motion.div
+                      <m.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{
-                          duration: 0.4,
-                          ease: [0.25, 0.46, 0.45, 0.94],
-                          opacity: { duration: 0.3 }
+                          duration: 0.35, // ✅ FIXED: Using semantic fast duration - 🔧 MINIMAL FIX
+                          ease: [0.25, 0.46, 0.45, 0.94], // Using CSS variable easing
+                          opacity: { duration: 0.25 }
                         }}
                         className="overflow-hidden"
                       >
-                        <motion.div
+                        <m.div
                           initial={{ y: -10 }}
                           animate={{ y: 0 }}
                           exit={{ y: -10 }}
-                          transition={{ duration: 0.3, delay: 0.1 }}
+                          transition={{ duration: 0.25, delay: 0.1 }}
                           className="px-4 md:px-5 pb-4 md:pb-5"
                         >
                           <div className="pt-3 border-t border-primary/20">
@@ -140,12 +140,12 @@ const FaqSection = () => {
                               {faq.answer}
                             </Text>
                           </div>
-                        </motion.div>
-                      </motion.div>
+                        </m.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </Card>
-              </motion.div>
+              </m.div>
             </div>
           </Animate>
         ))}

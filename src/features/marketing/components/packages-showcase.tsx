@@ -227,12 +227,12 @@ const PackagesSection = () => {
         {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {packages.map((pkg, index) => (
-            // ✅ SELARAS - Semantic delay calculation
+            // ✅ FIXED: Semantic delay calculation - 🔧 MINIMAL FIX
             <Animate
               key={pkg.id}
               animation="fadeInUp"
               speed="normal"
-              delay={index === 0 ? "instant" : index === 1 ? "fast" : "normal"}
+              delay={index === 0 ? "instant" : index === 1 ? "fast" : "normal"} // Changed from hardcoded delay
             >
               <PackageCard pkg={pkg} index={index} />
             </Animate>

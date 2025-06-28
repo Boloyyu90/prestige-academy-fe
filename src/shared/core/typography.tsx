@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, HTMLMotionProps } from 'framer-motion';
+import { m, HTMLMotionProps } from 'framer-motion';
 import { useIntersectionObserver } from '@/shared/hooks/use-intersection-observer';
 import { cn } from "@/shared/lib/utils/cn";
 
@@ -155,7 +155,7 @@ const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
       }
     };
 
-    const MotionComponent = motion[as] as any;
+    const MotionComponent = m[as] as any;
 
     if (!animate) {
       const Component = as;
@@ -234,7 +234,8 @@ const Text = React.forwardRef<HTMLElement, TextProps>(
       );
     }
 
-    const MotionComponent = motion[as] as any;
+    // ✅ FIXED: Ganti motion dengan m di line ini
+    const MotionComponent = m[as] as any;
 
     return (
       <MotionComponent

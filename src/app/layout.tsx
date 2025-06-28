@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { fontVariables } from '@/lib/fonts'
+import { MotionProvider } from '@/shared/providers/motion-providers'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -33,7 +34,9 @@ export default function RootLayout({
           text-foreground
         `}
     >
-    {children}
+    <MotionProvider>
+      {children}
+    </MotionProvider>
     </body>
     </html>
   )

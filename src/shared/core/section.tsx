@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, HTMLMotionProps } from 'framer-motion';
+import { m, HTMLMotionProps } from 'framer-motion';
 import { useIntersectionObserver } from '@/shared/hooks/use-intersection-observer';
 import { cn } from "@/shared/lib/utils/cn";
 
@@ -78,7 +78,8 @@ const Section = React.forwardRef<HTMLElement, SectionProps>(
       triggerOnce: true
     });
 
-    const Component = motion[as] as any;
+    // ✅ FIXED: Ganti motion dengan m
+    const Component = m[as] as any;
 
     const animationVariants = {
       fade: {
