@@ -98,7 +98,7 @@ export function HeroSection() {
                 <Button
                   size="lg"
                   variant="secondary"
-                  animation="hover"
+                  animation="scale"
                   className="font-semibold shadow-colored-secondary min-w-[200px] w-full sm:w-auto"
                   asChild
                 >
@@ -110,7 +110,7 @@ export function HeroSection() {
                 <Button
                   variant="default"
                   size="lg"
-                  animation="hover"
+                  animation="scale"
                   className="font-semibold text-white hover:bg-primary min-w-[140px] w-full sm:w-auto"
                   asChild
                 >

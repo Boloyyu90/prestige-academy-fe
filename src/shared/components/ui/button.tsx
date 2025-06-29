@@ -4,19 +4,20 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/shared/lib/utils/cn"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium gpu-accelerated transition-all duration-fast ease-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  // ✅ FIXED: Remove hardcoded transition, add semantic focus
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-primary text-white shadow-soft hover:shadow-medium hover:bg-primary/90",
-        secondary: "bg-secondary text-white shadow-soft hover:shadow-medium hover:bg-secondary/90",
-        success: "bg-success text-white hover:bg-success/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        gradient: "bg-gradient-hero text-white hover:opacity-90 shadow-colored",
-        shimmer: "btn-shimmer bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-white shadow-soft",
+        secondary: "bg-secondary text-white shadow-soft",
+        success: "bg-success text-white",
+        destructive: "bg-destructive text-destructive-foreground",
+        outline: "border border-input bg-background",
+        ghost: "",
+        link: "text-primary underline-offset-4",
+        gradient: "bg-gradient-hero text-white shadow-colored",
+        shimmer: "btn-shimmer bg-primary text-primary-foreground",
       },
       size: {
         default: "h-10 px-6 py-2",
@@ -25,19 +26,25 @@ const buttonVariants = cva(
         xl: "h-14 px-10",
         icon: "h-10 w-10",
       },
+
       animation: {
         none: "",
-        hover: "hover:scale-105 active:scale-95",
+        primary: "btn-hover-primary",              // Lift + primary glow
+        secondary: "btn-hover-secondary",          // Lift + secondary glow
+        ghost: "btn-hover-ghost hover:bg-accent hover:text-accent-foreground",
+        outline: "btn-hover-outline hover:bg-accent hover:text-accent-foreground",
+        lift: "hover-lift-sm",                     // Simple lift
+        scale: "hover-scale-sm active:scale-95",   // Scale + press feedback
+        glow: "hover-glow-primary",                // Primary glow only
         bounce: "hover:animate-bounce-subtle",
         float: "animate-float",
-        interactive: "interactive",
-        glow: "hover:shadow-colored-secondary",
+        underline: "hover:underline",
       }
     },
     defaultVariants: {
       variant: "default",
       size: "default",
-      animation: "interactive",
+      animation: "primary",
     },
   }
 )
@@ -51,9 +58,20 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, animation, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+
+    // ✅ NEW: Auto-select appropriate animation based on variant
+    const resolvedAnimation = animation || (
+      variant === 'default' ? 'primary' :
+        variant === 'secondary' ? 'secondary' :
+          variant === 'ghost' ? 'ghost' :
+            variant === 'outline' ? 'outline' :
+              variant === 'link' ? 'underline' :
+                'lift'
+    );
+
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, animation, className }))}
+        className={cn(buttonVariants({ variant, size, animation: resolvedAnimation }), className)}
         ref={ref}
         {...props}
       />
@@ -63,3 +81,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button"
 
 export { Button, buttonVariants }
+
+/* ============================================================================
+   📋 Contoh implementasi:
+
+   // ✅ Auto-semantic hover based on variant
+   <Button variant="default">Primary Hover</Button>        // btn-hover-primary
+   <Button variant="secondary">Secondary Hover</Button>    // btn-hover-secondary
+   <Button variant="ghost">Ghost Hover</Button>            // btn-hover-ghost
+   <Button variant="outline">Outline Hover</Button>        // btn-hover-outline
+
+   // ✅ Override specific animation
+   <Button variant="default" animation="scale">Scale Only</Button>
+   <Button variant="default" animation="lift">Lift Only</Button>
+   <Button animation="none">No Hover</Button>
+
+   // ✅ Continuous animations
+   <Button animation="float">Floating Button</Button>
+   <Button animation="bounce">Bouncing Button</Button>
+
+   // ✅ Link buttons
+   <Button variant="link" asChild>
+     <Link href="/somewhere">Link Button</Link>
+   </Button>
+
+   ============================================================================ */

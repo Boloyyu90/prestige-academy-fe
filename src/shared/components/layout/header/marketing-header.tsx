@@ -138,7 +138,7 @@ export function MarketingHeader() {
                 <Button
                   variant="secondary"
                   size="default"
-                  animation="hover"
+                  animation="scale"
                   onClick={handleRegisterClick}
                   className="font-semibold shadow-colored-secondary"
                 >
@@ -149,7 +149,7 @@ export function MarketingHeader() {
                 <Button
                   variant="default"
                   size="default"
-                  animation="hover"
+                  animation="scale"
                   onClick={handleLoginClick}
                   className="relative overflow-hidden group"
                 >
@@ -182,6 +182,7 @@ export function MarketingHeader() {
               aria-label="Toggle mobile menu"
             >
               <div className="relative w-6 h-6">
+                {/* ✅ FIXED: Menu Icon dengan m component */}
                 <m.div
                   className="absolute inset-0 flex items-center justify-center"
                   initial={false}
@@ -195,6 +196,7 @@ export function MarketingHeader() {
                   <Menu className="w-6 h-6" />
                 </m.div>
 
+                {/* ✅ FIXED: Close Icon dengan m component */}
                 <m.div
                   className="absolute inset-0 flex items-center justify-center"
                   initial={false}

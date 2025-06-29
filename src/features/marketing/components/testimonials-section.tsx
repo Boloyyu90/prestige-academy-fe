@@ -71,8 +71,8 @@ const TestimonialsSection = () => {
   }, [testimonials.length]);
 
   useEffect(() => {
-    // ✅ FIXED: Use semantic timing for autoplay - 🔧 MINIMAL FIX
-    const interval = setInterval(goToNext, 4800); // 4 * 1200ms (very-slow duration)
+    // ✅ SELARAS - Use semantic timing for autoplay
+    const interval = setInterval(goToNext, 5000);
     return () => clearInterval(interval);
   }, [goToNext]);
 

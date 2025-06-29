@@ -68,6 +68,17 @@
     --shadow-large: 0 8px 32px hsl(var(--foreground) / 0.16);
     --shadow-colored: 0 8px 25px hsl(var(--primary) / 0.25);
     --shadow-colored-secondary: 0 8px 25px hsl(var(--secondary) / 0.25);
+
+    /* 🎪 HOVER SYSTEM */
+    --hover-lift-sm: -1px;
+    --hover-lift-md: -3px;
+    --hover-lift-lg: -6px;
+    --hover-scale-sm: 1.02;
+    --hover-scale-md: 1.05;
+    --hover-scale-lg: 1.08;
+    --hover-brightness: 1.05;
+    --hover-rotate-sm: 2deg;
+    --hover-rotate-md: 5deg;
   }
 
   /* ===== TEMA GELAP ===== */
@@ -226,6 +237,426 @@
 
   .text-gradient-secondary {
     @apply bg-gradient-secondary bg-clip-text text-transparent;
+  }
+
+  /* ===== SEMANTIC HOVER EFFECTS ===== */
+
+  /* 1. LIFT VARIANTS - Elevation dengan shadow */
+  .hover-lift-sm {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  .hover-lift-sm:hover {
+    transform: translateY(var(--hover-lift-sm, -1px));
+    box-shadow: var(--shadow-soft);
+  }
+
+  .hover-lift-md {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  .hover-lift-md:hover {
+    transform: translateY(var(--hover-lift-md, -3px));
+    box-shadow: var(--shadow-medium);
+  }
+
+  .hover-lift-lg {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  .hover-lift-lg:hover {
+    transform: translateY(var(--hover-lift-lg, -6px));
+    box-shadow: var(--shadow-large);
+  }
+
+  /* 2. SCALE VARIANTS - Size transformation */
+  .hover-scale-sm {
+    transition: transform var(--animation-duration-fast) var(--animation-easing-gentle);
+    will-change: transform;
+  }
+
+  .hover-scale-sm:hover {
+    transform: scale(var(--hover-scale-sm, 1.02));
+  }
+
+  .hover-scale-md {
+    transition: transform var(--animation-duration-fast) var(--animation-easing-gentle);
+    will-change: transform;
+  }
+
+  .hover-scale-md:hover {
+    transform: scale(var(--hover-scale-md, 1.05));
+  }
+
+  .hover-scale-lg {
+    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
+    will-change: transform;
+  }
+
+  .hover-scale-lg:hover {
+    transform: scale(var(--hover-scale-lg, 1.08));
+  }
+
+  /* 3. GLOW VARIANTS - Brand color emphasis */
+  .hover-glow-primary {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  .hover-glow-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-colored);
+  }
+
+  .hover-glow-secondary {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  .hover-glow-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-colored-secondary);
+  }
+
+  /* 4. DIRECTIONAL VARIANTS - Movement feedback */
+  .hover-slide-right {
+    transition: transform var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform;
+  }
+
+  .hover-slide-right:hover {
+    transform: translateX(4px);
+  }
+
+  .hover-slide-up {
+    transition: transform var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform;
+  }
+
+  .hover-slide-up:hover {
+    transform: translateY(-4px);
+  }
+
+  /* 5. ROTATE VARIANTS - Playful interactions */
+  .hover-rotate-sm {
+    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
+    will-change: transform;
+  }
+
+  .hover-rotate-sm:hover {
+    transform: rotate(var(--hover-rotate-sm, 2deg));
+  }
+
+  .hover-rotate-md {
+    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
+    will-change: transform;
+  }
+
+  .hover-rotate-md:hover {
+    transform: rotate(var(--hover-rotate-md, 5deg));
+  }
+
+  /* 6. BRIGHTNESS VARIANTS - Subtle feedback */
+  .hover-brighten {
+    transition:
+            filter var(--animation-duration-fast) var(--animation-easing-smooth),
+            transform var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: filter, transform;
+  }
+
+  .hover-brighten:hover {
+    filter: brightness(var(--hover-brightness, 1.05));
+    transform: translateY(-1px);
+  }
+
+  .hover-dim {
+    transition:
+            filter var(--animation-duration-fast) var(--animation-easing-smooth),
+            transform var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: filter, transform;
+  }
+
+  .hover-dim:hover {
+    filter: brightness(0.95);
+    transform: scale(0.98);
+  }
+
+  /* ===== SEMANTIC COMPONENT COMBINATIONS ===== */
+
+  /* BUTTON HOVER STATES - Component-specific semantics */
+  .btn-hover-primary {
+    @apply hover-lift-sm hover-glow-primary;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .btn-hover-secondary {
+    @apply hover-lift-sm hover-glow-secondary;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .btn-hover-ghost {
+    @apply hover-brighten;
+    transition:
+            filter var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            transform var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .btn-hover-outline {
+    transition:
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            border-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            transform var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: background-color, border-color, transform;
+  }
+
+  .btn-hover-outline:hover {
+    transform: translateY(-1px);
+  }
+
+  /* CARD HOVER STATES - Component-specific semantics */
+  .card-hover-minimal {
+    @apply hover-lift-sm;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .card-hover-standard {
+    @apply hover-lift-md;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .card-hover-dramatic {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  .card-hover-dramatic:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-large);
+  }
+
+  .card-hover-playful {
+    @apply hover-scale-md hover-rotate-sm;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-bounce),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .card-hover-playful:hover {
+    transform: scale(1.05) rotate(2deg);
+  }
+
+  /* BADGE HOVER STATES - Component-specific semantics */
+  .badge-hover-lift {
+    @apply hover-lift-sm;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .badge-hover-scale {
+    @apply hover-scale-sm;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .badge-hover-glow {
+    @apply hover-glow-primary;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  /* LINK HOVER STATES - Component-specific semantics */
+  .link-hover-slide {
+    @apply hover-slide-right;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .link-hover-lift {
+    @apply hover-lift-sm;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .link-hover-underline {
+    position: relative;
+    transition: color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .link-hover-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: currentColor;
+    transition: width var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .link-hover-underline:hover::after {
+    width: 100%;
+  }
+
+  /* ICON HOVER STATES - Component-specific semantics */
+  .icon-hover-bounce {
+    @apply hover-scale-md;
+    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
+  }
+
+  .icon-hover-spin {
+    transition:
+            transform var(--animation-duration-normal) var(--animation-easing-smooth),
+            color var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, color;
+  }
+
+  .icon-hover-spin:hover {
+    transform: rotate(180deg);
+  }
+
+  .icon-hover-pulse {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            opacity var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, opacity;
+  }
+
+  .icon-hover-pulse:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+
+  /* PRICE DISPLAY HOVER STATES - Component-specific semantics */
+  .price-hover-emphasis {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            color var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, color;
+  }
+
+  .price-hover-emphasis:hover {
+    transform: scale(1.03);
+    color: hsl(var(--primary));
+  }
+
+  .price-hover-glow {
+    transition:
+            text-shadow var(--animation-duration-fast) var(--animation-easing-smooth),
+            transform var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: text-shadow, transform;
+  }
+
+  .price-hover-glow:hover {
+    text-shadow: 0 0 8px hsl(var(--primary) / 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* ===== COMBINED EFFECTS ===== */
+
+  /* Common combinations untuk rapid development */
+  .hover-interactive {
+    @apply hover-lift-sm;
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
+            color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .hover-button-primary {
+    @apply btn-hover-primary;
+  }
+
+  .hover-card-standard {
+    @apply card-hover-standard;
+  }
+
+  .hover-badge-scale {
+    @apply badge-hover-scale;
+  }
+
+  /* ===== ACCESSIBILITY & REDUCED MOTION ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .hover-lift-sm:hover,
+    .hover-lift-md:hover,
+    .hover-lift-lg:hover {
+      transform: none;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hover-scale-sm:hover,
+    .hover-scale-md:hover,
+    .hover-scale-lg:hover {
+      transform: none;
+    }
+
+    .hover-rotate-sm:hover,
+    .hover-rotate-md:hover {
+      transform: none;
+    }
+
+    .icon-hover-spin:hover {
+      transform: none;
+    }
+
+    .hover-brighten:hover,
+    .hover-dim:hover {
+      filter: none;
+      transform: none;
+    }
+  }
+
+  /* ===== HOVER SYSTEM UTILITIES ===== */
+
+  /* Disable all hover effects */
+  .hover-none {
+    transition: none !important;
+  }
+
+  .hover-none:hover {
+    transform: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Force hover state (untuk showcase/demo) */
+  .hover-forced {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-medium) !important;
   }
 
   /* ===== CARD COMPONENTS ===== */
