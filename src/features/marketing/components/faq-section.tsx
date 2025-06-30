@@ -57,26 +57,27 @@ const FaqSection = () => {
 
   return (
     <Section id="faq" variant="default" padding="default" container="narrow">
-      {/* Header */}
-      <Animate animation="fadeInUp" delay={0.1}>
+      {/* Header - Migrated to CSS */}
+      <Animate animation="fadeInUp">
         <div className="text-center mb-8 md:mb-12">
           <Heading as="h2" size="display-md" className="mb-4">
-             <span className="text-3xl sm:text-4xl md:text-4xl">
+            <span className="text-3xl sm:text-4xl md:text-4xl">
               Pertanyaan Seputar Prestige Academy
             </span>
           </Heading>
         </div>
       </Animate>
 
-      {/* FAQ Items with Bottom Padding */}
+      {/* FAQ Items - Mixed approach */}
       <div className="space-y-3 pb-12">
         {faqs.map((faq, index) => (
-          <Animate
+          <div
             key={faq.id}
-            animation="fadeInUp"
-            delay={0.05 * index}
+            className="animate-fadeInUp"
+            style={{ animationDelay: `${index * 100}ms` }}
           >
-            <div className="group transform-gpu">
+            <div className="group">
+              {/* ✅ HYBRID: Keep Framer Motion for interactive card hover */}
               <m.div
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
@@ -84,37 +85,40 @@ const FaqSection = () => {
                 className="will-change-transform"
               >
                 <Card className={cn(
-                  "border transition-all duration-300 overflow-hidden",
+                  "border overflow-hidden transition-colors duration-fast",
                   openFaq === faq.id
                     ? "border-primary shadow-md bg-primary/5"
                     : "border-border bg-card hover:shadow-sm hover:border-primary/30"
                 )}>
+
+                  {/* Button with CSS transitions for colors, Framer for subtle hover */}
                   <m.button
                     className="w-full p-4 md:p-5 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset rounded-lg"
                     onClick={() => toggleFaq(faq.id)}
                     aria-expanded={openFaq === faq.id}
-                    whileHover={{ backgroundColor: "rgba(var(--primary), 0.02)" }}
+                    whileHover={{ backgroundColor: "rgba(var(--primary-rgb), 0.02)" }}
                     transition={{ duration: 0.2 }}
                   >
                     <Text size="md" weight="medium" className={cn(
-                      "pr-4 leading-snug transition-colors duration-200",
+                      "pr-4 leading-snug transition-colors duration-fast",
                       openFaq === faq.id ? "text-primary" : "text-foreground"
                     )}>
                       {faq.question}
                     </Text>
 
-                    {/* ✅ FIXED: Using CSS transitions instead of framer-motion - 🔧 MINIMAL FIX */}
+                    {/* ✅ OPTIMIZED: CSS-only chevron rotation */}
                     <div className={cn(
-                      "flex-shrink-0 interactive",
+                      "flex-shrink-0 transition-transform duration-fast",
                       openFaq === faq.id ? "rotate-180" : "rotate-0"
                     )}>
                       <ChevronDown className={cn(
-                        "w-4 h-4 transition-colors duration-200",
+                        "w-4 h-4 transition-colors duration-fast",
                         openFaq === faq.id ? "text-primary" : "text-muted-foreground"
                       )} />
                     </div>
                   </m.button>
 
+                  {/* ✅ KEEP: Framer Motion for complex height animation (worth it for UX) */}
                   <AnimatePresence>
                     {openFaq === faq.id && (
                       <m.div
@@ -122,8 +126,8 @@ const FaqSection = () => {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{
-                          duration: 0.35, // ✅ FIXED: Using semantic fast duration - 🔧 MINIMAL FIX
-                          ease: [0.25, 0.46, 0.45, 0.94], // Using CSS variable easing
+                          duration: 0.35,
+                          ease: [0.25, 0.46, 0.45, 0.94], // CSS variable easing
                           opacity: { duration: 0.25 }
                         }}
                         className="overflow-hidden"
@@ -147,7 +151,7 @@ const FaqSection = () => {
                 </Card>
               </m.div>
             </div>
-          </Animate>
+          </div>
         ))}
       </div>
     </Section>

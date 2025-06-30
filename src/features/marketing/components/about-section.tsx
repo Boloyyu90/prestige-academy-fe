@@ -15,11 +15,11 @@ const AboutSection = () => {
   ];
 
   return (
-    <Section id="about" variant="transparent" padding="lg" >
+    <Section id="about" variant="transparent" padding="lg">
       {/* Top Badge */}
-      <Animate animation="fadeInUp" delay={0.1}>
+      <Animate animation="fadeInUp">
         <div className="mb-12 sm:mb-14 md:mb-16 lg:flex justify-center hidden">
-          <div className="inline-flex items-center rounded-full bg-card border border-border px-4 sm:px-6 py-2 sm:py-3 shadow-soft hover:shadow-medium transition-all duration-300">
+          <div className="inline-flex items-center rounded-full bg-card border border-border px-4 sm:px-6 py-2 sm:py-3 shadow-soft hover:shadow-medium transition-all duration-fast">
             <Text size="sm" weight="medium" className="text-card-foreground text-xs sm:text-sm">
               Tingkatkan nilai dengan simulasi berbasis riset!
             </Text>
@@ -34,7 +34,7 @@ const AboutSection = () => {
       <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-14 lg:gap-16 items-center">
 
         {/* Image */}
-        <Animate animation="fadeInLeft" duration={0.8} className="lg:order-1 order-2">
+        <Animate animation="fadeInLeft" className="lg:order-1 order-2">
           <div className="relative max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto lg:mx-0">
             <Image
               src="/images/illustrations/marketing/about-asset.svg"
@@ -46,10 +46,14 @@ const AboutSection = () => {
               sizes="(min-width: 1024px) 550px, (min-width: 768px) 448px, (min-width: 640px) 384px, 320px"
             />
 
-            {/* ✅ FIXED: Feature Badges - Using proper semantic variant */}
+            {/* Feature Badges - Mobile */}
             <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mt-6 lg:hidden">
               {features.map((feature, index) => (
-                <Animate key={`mobile-${index}`} animation="scaleIn" delay={index * 0.1}>
+                <div
+                  key={`mobile-${index}`}
+                  className="animate-scaleIn"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
                   <Badge
                     variant="primary-subtle"
                     size="sm"
@@ -58,15 +62,15 @@ const AboutSection = () => {
                   >
                     {feature}
                   </Badge>
-                </Animate>
+                </div>
               ))}
             </div>
           </div>
         </Animate>
 
         {/* Content */}
-        <Animate animation="fadeInRight" duration={0.8} className="lg:order-2 order-1 space-y-6 sm:space-y-7 md:space-y-8 text-center sm:text-center md:text-center lg:text-left">
-          {/* Heading - Typography selaras dengan Hero/Features/Benefits pattern */}
+        <Animate animation="fadeInRight" className="lg:order-2 order-1 space-y-6 sm:space-y-7 md:space-y-8 text-center sm:text-center md:text-center lg:text-left">
+          {/* Heading */}
           <Heading
             as="h2"
             size="display-md"
@@ -99,10 +103,14 @@ const AboutSection = () => {
             </Text>
           </div>
 
-          {/* ✅ FIXED: Feature Badges - Using proper semantic variant */}
+          {/* Feature Badges - Desktop */}
           <div className="flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start hidden lg:flex">
             {features.map((feature, index) => (
-              <Animate key={index} animation="scaleIn" delay={index * 0.1}>
+              <div
+                key={index}
+                className="animate-scaleIn"
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
                 <Badge
                   variant="primary-subtle"
                   size="sm"
@@ -111,7 +119,7 @@ const AboutSection = () => {
                 >
                   {feature}
                 </Badge>
-              </Animate>
+              </div>
             ))}
           </div>
         </Animate>

@@ -1,3 +1,6 @@
+// ================================
+// features-section.tsx - Migrated to CSS
+// ================================
 'use client';
 
 import { useState } from 'react';
@@ -18,7 +21,7 @@ interface Feature {
     description: string;
     benefits: string[];
     mockup: string;
-    color: 'default' | 'secondary' | 'success'; // Keep for UI styling, not for buttons
+    color: 'default' | 'secondary' | 'success';
 }
 
 const FeaturesSection = () => {
@@ -65,8 +68,6 @@ const FeaturesSection = () => {
     ];
 
     const activeFeatureData = features.find(f => f.id === activeFeature) || features[0];
-
-    // ✅ FIXED: Use color for UI elements only, not button variants
     const activeColorName = activeFeatureData.color === 'default' ? 'primary' : activeFeatureData.color;
 
     const tabColorClasses = {
@@ -78,13 +79,13 @@ const FeaturesSection = () => {
     return (
       <Section id="features" variant="transparent" padding="lg" className="relative overflow-hidden scroll-mt-16">
           <div className="relative z-10 space-y-8">
-              {/* Header - Typography selaras dengan Hero Section */}
+              {/* Header */}
               <Animate animation="fadeInUp" className="text-center space-y-4">
                   <Heading
                     as="h2"
                     size="display-md"
                     variant="default"
-                    className="tracking-normal space-y-2 "
+                    className="tracking-normal"
                     align="center">
                       <span className="text-3xl sm:text-4xl md:text-4xl">
                           Fitur Unggulan Prestige Academy
@@ -96,8 +97,8 @@ const FeaturesSection = () => {
               </Animate>
 
               <div className="max-w-7xl mx-auto">
-                  {/* Feature Navigation - Keep color styling for visual distinction */}
-                  <Animate animation="fadeInUp" delay={0.2} className="mb-10">
+                  {/* Feature Navigation */}
+                  <div className="animate-fadeInUp animation-delay-fast mb-10">
                       <div className="flex justify-center">
                           <Card variant="default" className={cn(
                             "flex flex-col items-stretch p-2 space-y-2 w-full max-w-sm",
@@ -112,7 +113,7 @@ const FeaturesSection = () => {
                                       key={feature.id}
                                       onClick={() => setActiveFeature(feature.id)}
                                       className={cn(
-                                        'relative flex items-center gap-3 px-5 py-3 rounded-full transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                                        'relative flex items-center gap-3 px-5 py-3 rounded-full transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                                         'justify-center w-full lg:w-auto lg:justify-start',
                                         isActive ? tabColorClasses[feature.color] : 'hover:bg-muted'
                                       )}
@@ -127,7 +128,7 @@ const FeaturesSection = () => {
                               })}
                           </Card>
                       </div>
-                  </Animate>
+                  </div>
 
                   {/* Feature Content */}
                   <div className={cn(
@@ -137,8 +138,7 @@ const FeaturesSection = () => {
 
                       {/* Visual Mockup */}
                       <Animate
-                        animation="slideInLeft"
-                        delay={0.3}
+                        animation="fadeInLeft"
                         className="order-1 lg:order-1 flex items-center justify-center">
                           <Image
                             src={activeFeatureData.mockup}
@@ -151,7 +151,7 @@ const FeaturesSection = () => {
                       </Animate>
 
                       {/* Content Description */}
-                      <Animate animation="slideInRight" delay={0.4} className="order-2 lg:order-2 space-y-8">
+                      <Animate animation="fadeInRight" className="order-2 lg:order-2 space-y-8">
                           <div className="space-y-4">
                               <Heading as="h3" size="display-sm" className="leading-tight">
                                   {activeFeatureData.title}{' '}
@@ -164,17 +164,20 @@ const FeaturesSection = () => {
 
                           <div className="space-y-4">
                               {activeFeatureData.benefits.map((benefit, index) => (
-                                <Animate key={index} animation="fadeInUp" delay={0.1 * index} className="flex items-center gap-4">
+                                <div
+                                  key={index}
+                                  className="flex items-center gap-4 animate-fadeInUp"
+                                  style={{ animationDelay: `${index * 100}ms` }}
+                                >
                                     <div className={cn('w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0', `bg-${activeColorName}/10`)}>
                                         <Check className={cn('w-4 h-4', `text-${activeColorName}`)} strokeWidth={3} />
                                     </div>
                                     <Text weight="medium" size="md">{benefit}</Text>
-                                </Animate>
+                                </div>
                               ))}
                           </div>
 
-                          {/* ✅ FIXED: Always use primary brand button for consistency */}
-                          <Animate animation="fadeInUp" delay={0.4} className="pt-4">
+                          <div className="pt-4 animate-fadeInUp animation-delay-normal">
                               <Button
                                 size="lg"
                                 variant="default"
@@ -184,7 +187,7 @@ const FeaturesSection = () => {
                                   Pelajari Lebih Lanjut
                                   <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                               </Button>
-                          </Animate>
+                          </div>
                       </Animate>
                   </div>
               </div>

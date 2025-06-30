@@ -14,7 +14,6 @@ export function HeroSection() {
         <Animate
           animation="fadeInLeft"
           speed="slow"
-          delay="normal"
           className="absolute bottom-0 left-0 w-[48vw] h-full hidden lg:block"
         >
           <Image
@@ -26,11 +25,9 @@ export function HeroSection() {
           />
         </Animate>
 
-        {/* Right Asset - diperbesar untuk mobile/tablet saja */}
         <Animate
           animation="fadeInRight"
           speed="slow"
-          delay="normal"
           className="absolute bottom-0 right-0 w-[75vw] sm:w-[65vw] md:w-[55vw] lg:w-[48vw] h-full"
         >
           <Image
@@ -44,17 +41,12 @@ export function HeroSection() {
         </Animate>
       </div>
 
-      {/* Main Content - Layout TETAP SAMA untuk lg+ */}
+      {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex justify-start min-h-[calc(100vh-4rem)] pt-20 pb-8 lg:pl-32">
           <div className="w-full lg:w-[55%] xl:w-[50%]">
 
-            <Animate
-              animation="fadeInUp"
-              speed="normal"
-              delay="slow"
-              className="mb-8"
-            >
+            <Animate animation="fadeInUp" className="mb-8">
               <Heading
                 as="h1"
                 size="display-lg"
@@ -67,19 +59,13 @@ export function HeroSection() {
                   Impian{' '}
                   <span className="relative text-primary font-bold text-3xl sm:text-4xl md:text-5xl">
                     CPNS!
-                    {/* ✅ SELARAS - Using CSS animation with semantic timing */}
-                    <div className="absolute bottom-0 left-0 w-full h-1 sm:h-1.5 lg:h-1.5 bg-secondary rounded-full origin-left animate-wipe-in-right animation-delay-1000"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-1 sm:h-1.5 lg:h-1.5 bg-secondary rounded-full origin-left animate-wipe-in-right animation-delay-slow"></div>
                   </span>
                 </span>
               </Heading>
             </Animate>
 
-            <Animate
-              animation="fadeInUp"
-              speed="normal"
-              delay="very-slow"
-              className="mb-6"
-            >
+            <Animate animation="fadeInUp" delay="normal" className="mb-6">
               <Text
                 size="md"
                 variant="muted"
@@ -89,11 +75,7 @@ export function HeroSection() {
               </Text>
             </Animate>
 
-            <Animate
-              animation="fadeInUp"
-              speed="normal"
-              delay="very-slow"
-            >
+            <Animate animation="fadeInUp" delay="slow">
               <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center sm:justify-center md:justify-center lg:justify-start">
                 <Button
                   size="lg"

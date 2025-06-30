@@ -7,7 +7,7 @@ import { Card } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
 import { Badge } from '@/shared/components/ui/badge';
 import { Heading, Text } from '@/shared/core/typography';
-import { Animate, useAnimationDurations } from '@/shared/core/animate';
+import { Animate } from '@/shared/core/animate';
 import { m } from 'framer-motion';
 import { cn } from '@/shared/lib/utils/cn';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
@@ -23,9 +23,6 @@ interface Testimonial {
 
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  // ✅ SELARAS - Use animation durations from our system
-  const durations = useAnimationDurations();
 
   const testimonials: Testimonial[] = [
     {
@@ -71,7 +68,6 @@ const TestimonialsSection = () => {
   }, [testimonials.length]);
 
   useEffect(() => {
-    // ✅ SELARAS - Use semantic timing for autoplay
     const interval = setInterval(goToNext, 5000);
     return () => clearInterval(interval);
   }, [goToNext]);
@@ -81,12 +77,12 @@ const TestimonialsSection = () => {
       id="testimonials"
       padding="lg"
       container="default"
-      animation="slide"
     >
       <div className="space-y-16">
-        {/* Header Section dengan spacing konsisten */}
-        <Animate animation="fadeInUp" speed="normal" className="text-center space-y-4">
-          <Heading as="h2" size="display-md" align="center" className="">
+
+        {/* Header - Migrated to CSS */}
+        <Animate animation="fadeInUp" className="text-center space-y-4">
+          <Heading as="h2" size="display-md" align="center">
             <span className="text-3xl sm:text-4xl md:text-4xl">
              Apa Kata Mereka Mengenai Prestige Academy?
             </span>
@@ -101,13 +97,13 @@ const TestimonialsSection = () => {
           </Text>
         </Animate>
 
-        {/* Testimonials Container dengan padding yang cukup */}
-        <Animate animation="fadeInUp" speed="normal" delay="fast">
+        {/* Testimonials Container - Hybrid approach */}
+        <div className="animate-fadeInUp animation-delay-fast">
           <div className="relative px-4 sm:px-8 md:px-12">
             {/* Spacer untuk badge position yang keluar */}
             <div className="h-8 mb-4"></div>
 
-            {/* Carousel Container */}
+            {/* ✅ KEEP: Framer Motion Carousel (Complex positioning worth the library) */}
             <div className="relative h-[550px] md:h-[500px] overflow-visible">
               <div className="absolute inset-0 flex items-center justify-center">
                 {testimonials.map((testimonial, index) => {
@@ -120,7 +116,7 @@ const TestimonialsSection = () => {
                       key={testimonial.id}
                       className={cn(
                         "absolute flex flex-col items-center w-full max-w-xs sm:max-w-sm",
-                        !isInFrame && "hidden" // Hide cards that are not in the [-1, 0, 1] frame
+                        !isInFrame && "hidden"
                       )}
                       initial={false}
                       animate={{
@@ -129,18 +125,18 @@ const TestimonialsSection = () => {
                         opacity: position === 0 ? 1 : 0.4,
                         zIndex: position === 0 ? 20 : 10 - Math.abs(position),
                       }}
-                      // ✅ SELARAS - Use semantic spring animation
                       transition={{
                         type: 'spring',
                         stiffness: 200,
                         damping: 25,
-                        duration: durations.normal
+                        duration: 0.6 // Semantic normal duration
                       }}
                     >
-                      {/* Image Card */}
+                      {/* Image Card - CSS hover effects */}
                       <Card
                         variant="default"
-                        className="relative w-full mb-8 rounded-3xl card-interactive"
+                        animation="hover"
+                        className="relative w-full mb-8 rounded-3xl"
                       >
                         {/* Position Badge */}
                         <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
@@ -179,7 +175,7 @@ const TestimonialsSection = () => {
                         </div>
                       </Card>
 
-                      {/* Content Card dengan glass effect */}
+                      {/* Content Card - CSS effects */}
                       <Card
                         variant="glass"
                         className="w-full max-w-md rounded-2xl p-6 text-center"
@@ -217,25 +213,26 @@ const TestimonialsSection = () => {
             {/* Spacer untuk name badge yang keluar */}
             <div className="h-8 mt-4"></div>
 
-            {/* Navigation Controls */}
+            {/* Navigation Controls - CSS hover effects */}
             <div className="flex justify-center items-center gap-6 mt-8 relative z-30">
               <Button
                 variant="outline"
                 size="icon"
                 onClick={goToPrevious}
-                className="rounded-full interactive bg-background/90 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                animation="hover"
+                className="rounded-full bg-background/90 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft className="w-5 h-5" />
               </Button>
 
-              {/* Pagination Dots */}
+              {/* Pagination Dots - CSS interactions */}
               <div className="flex justify-center gap-3">
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
                     className={cn(
-                      "w-3 h-3 rounded-full transition-all duration-300 ease-in-out interactive",
+                      "w-3 h-3 rounded-full transition-all duration-fast ease-in-out",
                       index === currentIndex
                         ? 'bg-primary scale-125 shadow-soft shadow-primary/50'
                         : 'bg-muted-foreground/30 hover:bg-primary/70 hover:scale-110'
@@ -250,14 +247,15 @@ const TestimonialsSection = () => {
                 variant="outline"
                 size="icon"
                 onClick={goToNext}
-                className="rounded-full interactive bg-background/90 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                animation="hover"
+                className="rounded-full bg-background/90 backdrop-blur-sm border-2 hover:bg-primary hover:text-primary-foreground"
                 aria-label="Next testimonial"
               >
                 <ChevronRight className="w-5 h-5" />
               </Button>
             </div>
           </div>
-        </Animate>
+        </div>
       </div>
     </Section>
   );

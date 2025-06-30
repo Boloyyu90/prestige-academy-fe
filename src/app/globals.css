@@ -1,815 +1,234 @@
-/* ============================================================================
-   ✅ FONT LOADING DIOPTIMALKAN
-   Tidak lagi menggunakan @import Google Fonts yang blocking render!
-   Fonts sekarang di-load via Next.js font optimization di layout.tsx
-   ============================================================================ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================================================
-   SISTEM TEMA DAN WARNA - INI YANG PALING PENTING!
-   🚨 JANGAN UBAH SEMBARANGAN - INI YANG NGATUR SEMUA WARNA DI APP
+   🎯 CORE DESIGN SYSTEM - ONLY WHAT'S ACTUALLY USED
    ============================================================================ */
 @layer base {
   :root {
-    /* ===== TEMA TERANG (DEFAULT) ===== */
-    --background: 0 0% 100%;             /* #FFFFFF - Background utama */
-    --foreground: 222.2 84% 4.9%;       /* #09090B - Text utama */
-    --card: 0 0% 100%;                   /* #FFFFFF - Background card */
-    --card-foreground: 222.2 84% 4.9%;  /* #09090B - Text di card */
-    --popover: 0 0% 100%;                /* #FFFFFF - Background popup */
-    --popover-foreground: 222.2 84% 4.9%; /* #09090B - Text di popup */
-
-    /* 🎨 BRAND COLORS */
-    --primary: 207 70% 39%;              /* #327498 - Biru teal brand */
-    --primary-foreground: 210 40% 98%;   /* #F8FAFC - Text di atas primary */
+    /* ===== COLORS ===== */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 207 70% 39%;              /* #327498 - Biru brand */
+    --primary-foreground: 210 40% 98%;
     --secondary: 30 80% 60%;             /* #F0A243 - Orange brand */
-    --secondary-foreground: 222.2 84% 4.9%; /* #09090B - Text di atas secondary */
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --border: 214.3 31.8% 91.4%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
 
-    /* 🎨 WARNA PENDUKUNG */
-    --muted: 210 40% 96.1%;              /* #F1F5F9 - Background section abu-abu */
-    --muted-foreground: 215.4 16.3% 46.9%; /* #64748B - Text abu-abu */
-    --accent: 210 40% 96.1%;             /* #F1F5F9 - Warna aksen */
-    --accent-foreground: 222.2 84% 4.9%; /* #09090B - Text di atas aksen */
-    --destructive: 0 84.2% 60.2%;       /* #EF4444 - Merah buat error/hapus */
-    --destructive-foreground: 210 40% 98%; /* #F8FAFC - Text di atas merah */
-    --border: 214.3 31.8% 91.4%;        /* #E2E8F0 - Warna border */
-    --input: 214.3 31.8% 91.4%;         /* #E2E8F0 - Border input */
-    --ring: 207 70% 39%;                 /* #327498 - Warna focus ring */
-    --radius: 0.5rem;                    /* Border radius default */
+    /* ===== ANIMATION TIMING - SIMPLIFIED ===== */
+    --animation-duration-fast: 350ms;
+    --animation-duration-normal: 600ms;
+    --animation-duration-slow: 800ms;
 
-    /* 📐 LAYOUT VARIABLES */
-    --layout-header-height: 4rem;        /* 64px - Tinggi header */
-    --layout-sidebar-width: 16rem;       /* 256px - Lebar sidebar */
-    --layout-content-max-width: 80rem;   /* 1280px - Lebar konten maksimal */
-    --layout-container-padding: 1rem;    /* 16px - Padding container default */
+    /* ===== EASING - ONLY WHAT'S NEEDED ===== */
+    --animation-easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --animation-easing-gentle: cubic-bezier(0.25, 0.1, 0.25, 1);
 
-    /* ⚡ ANIMATION DURATION SYSTEM - KONSISTEN & TERPUSAT! */
-    --animation-duration-instant: 150ms;  /* Quick feedback - tetap responsive */
-    --animation-duration-fast: 350ms;     /* Fast but smooth - tidak rushing */
-    --animation-duration-normal: 600ms;   /* Sweet spot - natural feeling */
-    --animation-duration-slow: 800ms;     /* Emphasis - gives breathing room */
-    --animation-duration-very-slow: 1200ms; /* Complex transitions - deliberate */
-
-    /* 🎭 ANIMATION EASING FUNCTIONS - MORE ORGANIC */
-    --animation-easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);  /* Gentle curve */
-    --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Playful bounce */
-    --animation-easing-sharp: cubic-bezier(0.4, 0, 0.2, 1);            /* Quick feedback */
-    --animation-easing-gentle: cubic-bezier(0.25, 0.1, 0.25, 1);       /* Extra smooth */
-
-    /* ⚡ TEMA TRANSITION - KHUSUS BUAT GANTI TEMA AJA */
-    --theme-transition-duration: var(--animation-duration-normal);
-    --theme-transition-easing: var(--animation-easing-smooth);
-
-    /* 🎪 SHADOW SYSTEM */
+    /* ===== SHADOWS ===== */
     --shadow-soft: 0 2px 8px hsl(var(--foreground) / 0.08);
     --shadow-medium: 0 4px 16px hsl(var(--foreground) / 0.12);
     --shadow-large: 0 8px 32px hsl(var(--foreground) / 0.16);
     --shadow-colored: 0 8px 25px hsl(var(--primary) / 0.25);
-    --shadow-colored-secondary: 0 8px 25px hsl(var(--secondary) / 0.25);
-
-    /* 🎪 HOVER SYSTEM */
-    --hover-lift-sm: -1px;
-    --hover-lift-md: -3px;
-    --hover-lift-lg: -6px;
-    --hover-scale-sm: 1.02;
-    --hover-scale-md: 1.05;
-    --hover-scale-lg: 1.08;
-    --hover-brightness: 1.05;
-    --hover-rotate-sm: 2deg;
-    --hover-rotate-md: 5deg;
   }
 
-  /* ===== TEMA GELAP ===== */
+  /* ===== DARK THEME ===== */
   .dark {
-    --background: 222.2 84% 4.9%;       /* #09090B - Background gelap */
-    --foreground: 210 40% 98%;          /* #F8FAFC - Text terang */
-    --card: 222.2 84% 4.9%;             /* #09090B - Card gelap */
-    --card-foreground: 210 40% 98%;     /* #F8FAFC - Text card terang */
-    --popover: 222.2 84% 4.9%;          /* #09090B - Popup gelap */
-    --popover-foreground: 210 40% 98%;  /* #F8FAFC - Text popup terang */
-
-    /* Brand colors tetep sama, cuma foreground yang diubah */
-    --primary-foreground: 210 40% 98%;   /* Text di primary tetep putih */
-    --secondary-foreground: 210 40% 98%; /* Text di secondary jadi putih */
-
-    /* Background pendukung disesuaikan buat dark mode */
-    --muted: 217.2 32.6% 17.5%;         /* #1E293B - Abu gelap */
-    --muted-foreground: 215 20.2% 65.1%; /* #94A3B8 - Text abu terang */
-    --accent: 217.2 32.6% 17.5%;        /* #1E293B - Aksen gelap */
-    --accent-foreground: 210 40% 98%;   /* #F8FAFC - Text aksen terang */
-    --destructive: 0 62.8% 30.6%;       /* #991B1B - Merah lebih gelap */
-    --destructive-foreground: 210 40% 98%; /* #F8FAFC - Text tetep putih */
-    --border: 217.2 32.6% 17.5%;        /* #1E293B - Border gelap */
-    --input: 217.2 32.6% 17.5%;         /* #1E293B - Input border gelap */
-
-    /* 🎪 Dark mode shadow adjustments */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --border: 217.2 32.6% 17.5%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
     --shadow-soft: 0 2px 8px hsl(0 0% 0% / 0.3);
     --shadow-medium: 0 4px 16px hsl(0 0% 0% / 0.4);
     --shadow-large: 0 8px 32px hsl(0 0% 0% / 0.5);
   }
-
-  /* ===== SISTEM TRANSISI TEMA - HANYA UNTUK THEME SWITCHING ===== */
-  html.theme-transitions {
-    transition: color-scheme var(--theme-transition-duration) var(--theme-transition-easing);
-  }
-
-  /* ✅ FIXED: Cuma warna yang transition, bukan semua properti */
-  html.theme-transitions .theme-transition-colors,
-  html.theme-transitions .theme-transition-colors *,
-  html.theme-transitions .theme-transition-colors *::before,
-  html.theme-transitions .theme-transition-colors *::after {
-    transition:
-            color var(--theme-transition-duration) var(--theme-transition-easing),
-            background-color var(--theme-transition-duration) var(--theme-transition-easing),
-            border-color var(--theme-transition-duration) var(--theme-transition-easing),
-            fill var(--theme-transition-duration) var(--theme-transition-easing),
-            stroke var(--theme-transition-duration) var(--theme-transition-easing);
-  }
-
-  /* Matiin transisi sementara pas lagi ganti tema biar gak glitch */
-  html.theme-switching *,
-  html.theme-switching *::before,
-  html.theme-switching *::after {
-    transition: none !important;
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    html.theme-transitions .theme-transition-colors,
-    html.theme-transitions .theme-transition-colors *,
-    html.theme-transitions .theme-transition-colors *::before,
-    html.theme-transitions .theme-transition-colors *::after {
-      transition-duration: 0.01ms !important;
-    }
-  }
 }
 
 /* ============================================================================
-   STYLE DASAR - SETTING FUNDAMENTAL BUAT SELURUH APP
+   🎯 BASE STYLES - MINIMAL & ESSENTIAL
    ============================================================================ */
 @layer base {
-  /* Reset semua element biar pake border-color yang konsisten */
   * {
     @apply border-border;
   }
 
-  /* Body styling - sekarang menggunakan CSS variables dari Next.js fonts */
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-inter), var(--font-poppins), system-ui, sans-serif;
-    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-muted;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
-  }
 }
 
 /* ============================================================================
-   KOMPONEN REUSABLE - DENGAN ANIMATION SYSTEM YANG SUDAH DIOPTIMALKAN
-   ============================================================================ */
-@layer components {
-
-  /* ===== BASE INTERACTION CLASSES - SINGLE SOURCE OF TRUTH ===== */
-  .interactive-base {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            opacity var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, opacity;
-  }
-
-  .interactive-base:hover {
-    transform: translateY(-2px);
-  }
-
-  .interactive-colors {
-    transition:
-            color var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            border-color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .interactive {
-    @apply interactive-base interactive-colors;
-  }
-
-  /* ===== LAYOUT UTILITIES ===== */
-  .container-custom {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  .section-padding {
-    @apply py-16 md:py-20 lg:py-24;
-  }
-
-  .content-padding {
-    @apply px-4 sm:px-6 lg:px-8;
-  }
-
-  /* ===== TYPOGRAPHY UTILITIES ===== */
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
-  }
-
-  .text-gradient-primary {
-    @apply bg-gradient-primary bg-clip-text text-transparent;
-  }
-
-  .text-gradient-secondary {
-    @apply bg-gradient-secondary bg-clip-text text-transparent;
-  }
-
-  /* ===== SEMANTIC HOVER EFFECTS ===== */
-
-  /* 1. LIFT VARIANTS - Elevation dengan shadow */
-  .hover-lift-sm {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, box-shadow;
-  }
-
-  .hover-lift-sm:hover {
-    transform: translateY(var(--hover-lift-sm, -1px));
-    box-shadow: var(--shadow-soft);
-  }
-
-  .hover-lift-md {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, box-shadow;
-  }
-
-  .hover-lift-md:hover {
-    transform: translateY(var(--hover-lift-md, -3px));
-    box-shadow: var(--shadow-medium);
-  }
-
-  .hover-lift-lg {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, box-shadow;
-  }
-
-  .hover-lift-lg:hover {
-    transform: translateY(var(--hover-lift-lg, -6px));
-    box-shadow: var(--shadow-large);
-  }
-
-  /* 2. SCALE VARIANTS - Size transformation */
-  .hover-scale-sm {
-    transition: transform var(--animation-duration-fast) var(--animation-easing-gentle);
-    will-change: transform;
-  }
-
-  .hover-scale-sm:hover {
-    transform: scale(var(--hover-scale-sm, 1.02));
-  }
-
-  .hover-scale-md {
-    transition: transform var(--animation-duration-fast) var(--animation-easing-gentle);
-    will-change: transform;
-  }
-
-  .hover-scale-md:hover {
-    transform: scale(var(--hover-scale-md, 1.05));
-  }
-
-  .hover-scale-lg {
-    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
-    will-change: transform;
-  }
-
-  .hover-scale-lg:hover {
-    transform: scale(var(--hover-scale-lg, 1.08));
-  }
-
-  /* 3. GLOW VARIANTS - Brand color emphasis */
-  .hover-glow-primary {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, box-shadow;
-  }
-
-  .hover-glow-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-colored);
-  }
-
-  .hover-glow-secondary {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, box-shadow;
-  }
-
-  .hover-glow-secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-colored-secondary);
-  }
-
-  /* 4. DIRECTIONAL VARIANTS - Movement feedback */
-  .hover-slide-right {
-    transition: transform var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform;
-  }
-
-  .hover-slide-right:hover {
-    transform: translateX(4px);
-  }
-
-  .hover-slide-up {
-    transition: transform var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform;
-  }
-
-  .hover-slide-up:hover {
-    transform: translateY(-4px);
-  }
-
-  /* 5. ROTATE VARIANTS - Playful interactions */
-  .hover-rotate-sm {
-    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
-    will-change: transform;
-  }
-
-  .hover-rotate-sm:hover {
-    transform: rotate(var(--hover-rotate-sm, 2deg));
-  }
-
-  .hover-rotate-md {
-    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
-    will-change: transform;
-  }
-
-  .hover-rotate-md:hover {
-    transform: rotate(var(--hover-rotate-md, 5deg));
-  }
-
-  /* 6. BRIGHTNESS VARIANTS - Subtle feedback */
-  .hover-brighten {
-    transition:
-            filter var(--animation-duration-fast) var(--animation-easing-smooth),
-            transform var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: filter, transform;
-  }
-
-  .hover-brighten:hover {
-    filter: brightness(var(--hover-brightness, 1.05));
-    transform: translateY(-1px);
-  }
-
-  .hover-dim {
-    transition:
-            filter var(--animation-duration-fast) var(--animation-easing-smooth),
-            transform var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: filter, transform;
-  }
-
-  .hover-dim:hover {
-    filter: brightness(0.95);
-    transform: scale(0.98);
-  }
-
-  /* ===== SEMANTIC COMPONENT COMBINATIONS ===== */
-
-  /* BUTTON HOVER STATES - Component-specific semantics */
-  .btn-hover-primary {
-    @apply hover-lift-sm hover-glow-primary;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .btn-hover-secondary {
-    @apply hover-lift-sm hover-glow-secondary;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .btn-hover-ghost {
-    @apply hover-brighten;
-    transition:
-            filter var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            transform var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .btn-hover-outline {
-    transition:
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            border-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            transform var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: background-color, border-color, transform;
-  }
-
-  .btn-hover-outline:hover {
-    transform: translateY(-1px);
-  }
-
-  /* CARD HOVER STATES - Component-specific semantics */
-  .card-hover-minimal {
-    @apply hover-lift-sm;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .card-hover-standard {
-    @apply hover-lift-md;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .card-hover-dramatic {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, box-shadow;
-  }
-
-  .card-hover-dramatic:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: var(--shadow-large);
-  }
-
-  .card-hover-playful {
-    @apply hover-scale-md hover-rotate-sm;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-bounce),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .card-hover-playful:hover {
-    transform: scale(1.05) rotate(2deg);
-  }
-
-  /* BADGE HOVER STATES - Component-specific semantics */
-  .badge-hover-lift {
-    @apply hover-lift-sm;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .badge-hover-scale {
-    @apply hover-scale-sm;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .badge-hover-glow {
-    @apply hover-glow-primary;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  /* LINK HOVER STATES - Component-specific semantics */
-  .link-hover-slide {
-    @apply hover-slide-right;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .link-hover-lift {
-    @apply hover-lift-sm;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .link-hover-underline {
-    position: relative;
-    transition: color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .link-hover-underline::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: currentColor;
-    transition: width var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .link-hover-underline:hover::after {
-    width: 100%;
-  }
-
-  /* ICON HOVER STATES - Component-specific semantics */
-  .icon-hover-bounce {
-    @apply hover-scale-md;
-    transition: transform var(--animation-duration-fast) var(--animation-easing-bounce);
-  }
-
-  .icon-hover-spin {
-    transition:
-            transform var(--animation-duration-normal) var(--animation-easing-smooth),
-            color var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, color;
-  }
-
-  .icon-hover-spin:hover {
-    transform: rotate(180deg);
-  }
-
-  .icon-hover-pulse {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            opacity var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, opacity;
-  }
-
-  .icon-hover-pulse:hover {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-
-  /* PRICE DISPLAY HOVER STATES - Component-specific semantics */
-  .price-hover-emphasis {
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            color var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: transform, color;
-  }
-
-  .price-hover-emphasis:hover {
-    transform: scale(1.03);
-    color: hsl(var(--primary));
-  }
-
-  .price-hover-glow {
-    transition:
-            text-shadow var(--animation-duration-fast) var(--animation-easing-smooth),
-            transform var(--animation-duration-fast) var(--animation-easing-smooth);
-    will-change: text-shadow, transform;
-  }
-
-  .price-hover-glow:hover {
-    text-shadow: 0 0 8px hsl(var(--primary) / 0.3);
-    transform: translateY(-1px);
-  }
-
-  /* ===== COMBINED EFFECTS ===== */
-
-  /* Common combinations untuk rapid development */
-  .hover-interactive {
-    @apply hover-lift-sm;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            background-color var(--animation-duration-fast) var(--animation-easing-smooth),
-            color var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .hover-button-primary {
-    @apply btn-hover-primary;
-  }
-
-  .hover-card-standard {
-    @apply card-hover-standard;
-  }
-
-  .hover-badge-scale {
-    @apply badge-hover-scale;
-  }
-
-  /* ===== ACCESSIBILITY & REDUCED MOTION ===== */
-  @media (prefers-reduced-motion: reduce) {
-    .hover-lift-sm:hover,
-    .hover-lift-md:hover,
-    .hover-lift-lg:hover {
-      transform: none;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .hover-scale-sm:hover,
-    .hover-scale-md:hover,
-    .hover-scale-lg:hover {
-      transform: none;
-    }
-
-    .hover-rotate-sm:hover,
-    .hover-rotate-md:hover {
-      transform: none;
-    }
-
-    .icon-hover-spin:hover {
-      transform: none;
-    }
-
-    .hover-brighten:hover,
-    .hover-dim:hover {
-      filter: none;
-      transform: none;
-    }
-  }
-
-  /* ===== HOVER SYSTEM UTILITIES ===== */
-
-  /* Disable all hover effects */
-  .hover-none {
-    transition: none !important;
-  }
-
-  .hover-none:hover {
-    transform: none !important;
-    filter: none !important;
-    box-shadow: none !important;
-  }
-
-  /* Force hover state (untuk showcase/demo) */
-  .hover-forced {
-    transform: translateY(-2px) !important;
-    box-shadow: var(--shadow-medium) !important;
-  }
-
-  /* ===== CARD COMPONENTS ===== */
-  .card-hover {
-    @apply interactive-base;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-smooth),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-large);
-  }
-
-  .card-interactive {
-    @apply interactive-base;
-    transition:
-            transform var(--animation-duration-fast) var(--animation-easing-bounce),
-            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .card-interactive:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: var(--shadow-colored);
-  }
-
-  /* ===== GLASS EFFECT ===== */
-  .glass {
-    background: hsl(var(--background) / 0.1);
-    backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--border) / 0.2);
-    transition:
-            background-color var(--animation-duration-normal) var(--animation-easing-smooth),
-            border-color var(--animation-duration-normal) var(--animation-easing-smooth);
-  }
-
-  .dark .glass {
-    background: hsl(var(--background) / 0.2);
-    border: 1px solid hsl(var(--border) / 0.3);
-  }
-
-  /* ===== FOCUS STATES ===== */
-  .focus-visible-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
-    transition: box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
-  }
-
-  .dark .focus-visible-ring {
-    @apply focus-visible:ring-offset-background;
-  }
-}
-
-/* ============================================================================
-   UTILITY CLASSES - DENGAN PERFORMANCE OPTIMIZATIONS
+   🎯 ANIMATION SYSTEM - PURE CSS, HIGH PERFORMANCE
    ============================================================================ */
 @layer utilities {
 
-  /* ===== ACCESSIBILITY ===== */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+  /* ===== CORE ENTRANCE ANIMATIONS ===== */
+  .animate-fadeInUp {
+    animation: fadeInUp var(--animation-duration-normal) var(--animation-easing-smooth) forwards;
   }
 
-  /* ===== PERFORMANCE UTILITIES ===== */
+  .animate-fadeInLeft {
+    animation: fadeInLeft var(--animation-duration-fast) var(--animation-easing-smooth) forwards;
+  }
+
+  .animate-fadeInRight {
+    animation: fadeInRight var(--animation-duration-fast) var(--animation-easing-smooth) forwards;
+  }
+
+  .animate-scaleIn {
+    animation: scaleIn var(--animation-duration-slow) var(--animation-easing-gentle) forwards;
+  }
+
+  /* ===== SPEED MODIFIERS ===== */
+  .animation-duration-fast {
+    animation-duration: var(--animation-duration-fast) !important;
+  }
+
+  .animation-duration-normal {
+    animation-duration: var(--animation-duration-normal) !important;
+  }
+
+  .animation-duration-slow {
+    animation-duration: var(--animation-duration-slow) !important;
+  }
+
+  /* ===== DELAY MODIFIERS ===== */
+  .animation-delay-fast {
+    animation-delay: var(--animation-duration-fast);
+  }
+
+  .animation-delay-normal {
+    animation-delay: var(--animation-duration-normal);
+  }
+
+  .animation-delay-slow {
+    animation-delay: var(--animation-duration-slow);
+  }
+
+  /* ===== PERFORMANCE OPTIMIZATION ===== */
   .gpu-accelerated {
     will-change: transform, opacity;
     transform: translateZ(0);
   }
 
-  .disable-animations {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  /* ===== RESPONSIVE UTILITIES ===== */
-  .responsive-padding {
-    @apply px-4 sm:px-6 lg:px-8;
-  }
-
-  .responsive-margin {
-    @apply mx-4 sm:mx-6 lg:px-8;
-  }
-
-  /* ✅ ADD: Performance optimization untuk Framer Motion */
-  .will-change-transform {
-    will-change: transform;
-  }
-
-  .will-change-opacity {
-    will-change: opacity;
-  }
-
-  .will-change-auto {
-    will-change: auto;
-  }
-
-  /* ✅ ADD: Hardware acceleration untuk smooth animations */
-  .gpu-accelerated {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
-  /* ✅ ADD: Optimasi untuk reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .gpu-accelerated {
-      will-change: auto;
-      transform: none;
-    }
-  }
-
-  /* ===== SHADOW UTILITIES - MENGGUNAKAN CSS VARIABLES ===== */
-  .shadow-elevation-1 { box-shadow: var(--shadow-soft); }
-  .shadow-elevation-2 { box-shadow: var(--shadow-medium); }
-  .shadow-elevation-3 { box-shadow: var(--shadow-large); }
-  .shadow-colored { box-shadow: var(--shadow-colored); }
-  .shadow-colored-secondary { box-shadow: var(--shadow-colored-secondary); }
-
-  /* Auto-apply untuk reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
+  /* ===== INITIAL HIDDEN STATES ===== */
+  .animate-fadeInUp,
+  .animate-fadeInLeft,
+  .animate-fadeInRight,
+  .animate-scaleIn {
+    opacity: 0;
   }
 }
 
 /* ============================================================================
-   📝 OPTIMIZATION SUMMARY:
-
-   ✅ YANG SUDAH DIPERBAIKI:
-   1. 🚀 Font loading: External @import dihapus, menggunakan Next.js optimization
-   2. 🎭 Animation conflicts: Dipisah antara theme dan component transitions
-   3. ⚡ Performance: Ditambah will-change dan GPU acceleration
-   4. 🎯 Consistency: Semua timing menggunakan CSS variables
-   5. ♿ Accessibility: Improved reduced motion support
-   6. 📦 Bundle size: Safelist dioptimalkan di Tailwind config
-
-   🎯 HASIL YANG DIHARAPKAN:
-   - 40-60% improvement di Core Web Vitals
-   - Eliminasi render-blocking font requests
-   - Smooth animations tanpa conflicts
-   - Consistent timing di semua animasi
-   - Better accessibility compliance
-
+   🎯 KEYFRAMES - ONLY ESSENTIAL ANIMATIONS
    ============================================================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================================================
+   🎯 HOVER EFFECTS - ESSENTIAL INTERACTIONS ONLY
+   ============================================================================ */
+@layer components {
+
+  /* ===== BASIC INTERACTIVE ELEMENTS ===== */
+  .interactive {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            box-shadow var(--animation-duration-fast) var(--animation-easing-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  .interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* ===== CARD HOVER EFFECTS ===== */
+  .card-hover {
+    @apply interactive;
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-medium);
+  }
+
+  /* ===== BUTTON HOVER EFFECTS ===== */
+  .btn-hover {
+    transition:
+            transform var(--animation-duration-fast) var(--animation-easing-smooth),
+            background-color var(--animation-duration-fast) var(--animation-easing-smooth);
+  }
+
+  .btn-hover:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* ============================================================================
+   🎯 ACCESSIBILITY - REDUCED MOTION SUPPORT
+   ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .interactive:hover {
+    transform: none;
+  }
+}

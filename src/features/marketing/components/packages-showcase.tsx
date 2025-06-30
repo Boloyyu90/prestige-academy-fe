@@ -27,7 +27,6 @@ interface Package {
   price: number;
   originalPrice?: number;
   popular?: boolean;
-  variant?: 'default' | 'secondary';
   badge?: string;
   includedFeatureIds: string[];
   featureDescriptions: { [key: string]: string };
@@ -57,8 +56,10 @@ const PriceDisplay = ({ price, originalPrice }: { price: number; originalPrice?:
 const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
   <Card
     className={cn(
-      'relative flex flex-col h-full overflow-hidden transition-all duration-300 group border-border hover:shadow-xl'
+      'relative flex flex-col h-full overflow-hidden border-border hover:shadow-xl',
+      'transition-all duration-fast group'
     )}
+    animation="hover"
   >
     {/* Popular Badge */}
     {pkg.popular && (
@@ -86,18 +87,11 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
         {/* Package Info */}
         <div className="space-y-3">
           <div className="flex justify-between items-start">
-            <div className="space-y-1">
-              <Heading as="h3" size="md" className="text-foreground">
-                {pkg.title}
-              </Heading>
-            </div>
-
+            <Heading as="h3" size="md" className="text-foreground">
+              {pkg.title}
+            </Heading>
             <Badge
-              variant={
-                pkg.popular ? "secondary" :
-                  pkg.price === 0 ? "success" :
-                    "default"
-              }
+              variant={pkg.popular ? "secondary" : pkg.price === 0 ? "success" : "default"}
               className="font-medium"
             >
               {pkg.badge || (pkg.price === 0 ? "Gratis!" : "Premium!")}
@@ -133,12 +127,12 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
           })}
         </div>
 
-        {/* CTA Button - Always use primary brand for consistency */}
+        {/* CTA Button */}
         <div className="pt-4">
           <Button
             className="w-full group"
             size="lg"
-            variant="default"  // ✅ Always primary brand
+            variant="default"
             animation="hover"
           >
             {pkg.price === 0 ? 'Coba Gratis' : 'Pilih Paket'}
@@ -157,13 +151,10 @@ const PackagesSection = () => {
       title: "Paket Gratis",
       description: "Coba platform kami dengan pengalaman yang menyegarkan.",
       price: 0,
-      variant: 'default',
       badge: "Gratis!",
-      includedFeatureIds: ['tryout', 'discussion', 'analysis'],
+      includedFeatureIds: ['tryout'],
       featureDescriptions: {
         'tryout': "Akses 1x Tryout SKD",
-        'discussion': "Pembahasan Soal via Teks",
-        'analysis': "Analisis Hasil Dasar",
       }
     },
     {
@@ -173,13 +164,11 @@ const PackagesSection = () => {
       price: 99000,
       originalPrice: 149000,
       popular: true,
-      variant: 'secondary',
       badge: "Terlaris!",
       includedFeatureIds: ['tryout', 'video_discussion', 'detailed_analysis', 'discussion_group'],
       featureDescriptions: {
         'tryout': "Akses 5x Tryout SKD",
         'video_discussion': "Pembahasan Soal via Video HD",
-        'detailed_analysis': "Analisis Detail & Peringkat Nasional",
       }
     },
     {
@@ -188,31 +177,24 @@ const PackagesSection = () => {
       description: "Paket terlengkap dengan bimbingan personal.",
       price: 199000,
       originalPrice: 299000,
-      variant: 'default',
       badge: "Best Value!",
       includedFeatureIds: ['tryout', 'video_discussion', 'detailed_analysis', 'discussion_group', 'personal_consulting', 'interview_simulation', 'guarantee'],
       featureDescriptions: {
         'tryout': "Akses 10x Tryout SKD",
-        'video_discussion': "Pembahasan Video Premium",
       }
     }
   ];
 
   return (
-    <Section
-      id="packages"
-      variant="default"
-      padding="lg"
-      container="default"
-    >
+    <Section id="packages" variant="default" padding="lg" container="default">
       <div className="space-y-16">
-        {/* Header - Typography selaras dengan section lainnya */}
-        <Animate animation="fadeInUp" speed="normal" className="text-center space-y-4">
+        {/* Header */}
+        <Animate animation="fadeInUp" className="text-center space-y-4">
           <Heading
             as="h2"
             size="display-md"
             variant="default"
-            className="tracking-normal space-y-2"
+            className="tracking-normal"
             align="center"
           >
             <span className="text-3xl sm:text-4xl md:text-4xl">
@@ -227,20 +209,18 @@ const PackagesSection = () => {
         {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {packages.map((pkg, index) => (
-            // ✅ SELARAS - Semantic delay calculation
-            <Animate
+            <div
               key={pkg.id}
-              animation="fadeInUp"
-              speed="normal"
-              delay={index === 0 ? "instant" : index === 1 ? "fast" : "normal"}
+              className="animate-fadeInUp"
+              style={{ animationDelay: `${index * 150}ms` }}
             >
               <PackageCard pkg={pkg} index={index} />
-            </Animate>
+            </div>
           ))}
         </div>
 
         {/* Bottom CTA */}
-        <Animate animation="fadeInUp" speed="normal" delay="fast" className="text-center">
+        <Animate animation="fadeInUp" delay="normal" className="text-center">
           <Text size="sm" variant="muted" className="mb-4">
             *Syarat dan ketentuan berlaku. Garansi berlaku dengan ketentuan tertentu.
           </Text>

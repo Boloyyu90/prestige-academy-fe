@@ -51,6 +51,7 @@ const BenefitsSection = () => {
     <section id="benefits" className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-24 scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
+        {/* Background Assets - Keep as is */}
         <div className="hidden lg:block absolute top-40 left-0 pointer-events-none">
           <Image
             src="/images/backgrounds/benefit-asset-top.svg"
@@ -67,10 +68,8 @@ const BenefitsSection = () => {
             width={130}
             height={130}
             className="object-contain"
-            style={{ animationDelay: '1s' }}
           />
         </div>
-
 
         <div className="lg:hidden absolute top-32 sm:top-12 left-0 pointer-events-none">
           <div
@@ -88,8 +87,7 @@ const BenefitsSection = () => {
             style={{
               backgroundImage: `url('/images/backgrounds/benefit-asset-bottom.svg')`,
               width: 'clamp(280px, 70vw, 400px)',
-              height: 'clamp(280px, 70vw, 400px)',
-              animationDelay: '1s'
+              height: 'clamp(280px, 70vw, 400px)'
             }}
           />
         </div>
@@ -117,8 +115,8 @@ const BenefitsSection = () => {
           <div className="relative max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl mx-auto">
             <Card variant="default" size="lg" className="relative shadow-md overflow-hidden">
 
+              {/* Background Logo */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-                {/* Mobile Logo */}
                 <div className="block lg:hidden">
                   <Image
                     src="/images/logo/logo-prestige-blue.svg"
@@ -128,7 +126,6 @@ const BenefitsSection = () => {
                     className="object-contain opacity-5"
                   />
                 </div>
-                {/* Desktop Logo */}
                 <div className="hidden lg:block">
                   <Image
                     src="/images/logo/logo-prestige-blue.svg"
@@ -140,17 +137,16 @@ const BenefitsSection = () => {
                 </div>
               </div>
 
-              {/* Vertical Line - Tetap sama */}
+              {/* Vertical Line */}
               <div className="hidden lg:block absolute top-20 bottom-20 xl:top-24 xl:bottom-24 left-1/2 w-1 -translate-x-1/2 bg-gradient-to-b from-transparent via-primary/70 to-transparent" />
 
               {/* Benefits List */}
               <div className="relative space-y-8 sm:space-y-10 md:space-y-12 lg:space-y-16 py-6 sm:py-7 md:py-8">
                 {benefits.map((benefit, index) => (
-                  <Animate
+                  <div
                     key={benefit.step}
-                    animation="fadeInUp"
-                    delay={index * 0.15}
-                    className="relative lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-12 lg:items-center"
+                    className="relative lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-12 lg:items-center animate-fadeInUp"
+                    style={{ animationDelay: `${index * 150}ms` }}
                   >
                     {/* Step Circle */}
                     <div className="relative lg:col-start-2 z-10">
@@ -194,7 +190,7 @@ const BenefitsSection = () => {
                         {benefit.description}
                       </Text>
                     </div>
-                  </Animate>
+                  </div>
                 ))}
               </div>
             </Card>

@@ -1,58 +1,85 @@
-export const animationPresets = {
-  // Entrance animations
-  fadeIn: "animate-fade-in",
-  fadeInUp: "animate-fade-in-up",
-  slideInLeft: "animate-slide-in-left",
-  slideInRight: "animate-slide-in-right",
-  scaleIn: "animate-scale-in",
+// ✅ PRAGMATIC: Essential animation utilities only
+import { cn } from '@/shared/lib/utils/cn';
 
-  // Continuous animations
-  float: "animate-float",
-  bounce: "animate-bounce-subtle",
-  pulse: "animate-pulse-soft",
+// ✅ SIMPLIFIED: Core animation classes
+export const animationClasses = {
+  entrance: {
+    fadeInUp: 'animate-fadeInUp',
+    fadeInLeft: 'animate-fadeInLeft',
+    fadeInRight: 'animate-fadeInRight',
+    scaleIn: 'animate-scaleIn',
+  },
 
-  // Interactive animations
-  hover: "hover:scale-105 hover:-translate-y-1 transition-all duration-300",
-  press: "active:scale-95 transition-all duration-150",
+  speed: {
+    fast: 'animation-duration-fast',
+    normal: 'animation-duration-normal',
+    slow: 'animation-duration-slow',
+  },
 
-  // Stagger delays
-  stagger: {
-    100: "animation-delay-100",
-    200: "animation-delay-200",
-    300: "animation-delay-300",
-    400: "animation-delay-400",
-    500: "animation-delay-500",
+  delay: {
+    fast: 'animation-delay-fast',
+    normal: 'animation-delay-normal',
+    slow: 'animation-delay-slow',
+  },
+
+  interactive: {
+    default: 'interactive',
+    card: 'card-hover',
+    button: 'btn-hover',
   }
-} as const
+} as const;
 
-export const createStaggeredAnimation = (baseClass: string, itemCount: number, delayMs: number = 100) => {
-  return Array.from({ length: itemCount }, (_, i) => ({
-    class: `${baseClass} animation-delay-${i * delayMs}`,
-    style: { animationDelay: `${i * delayMs}ms` }
-  }))
-}
+// ✅ HELPER: Quick animation class builder
+export const createAnimationClass = (
+  animation: keyof typeof animationClasses.entrance,
+  speed: keyof typeof animationClasses.speed = 'normal',
+  delay: keyof typeof animationClasses.delay = 'fast'
+) => {
+  return cn(
+    animationClasses.entrance[animation],
+    animationClasses.speed[speed],
+    animationClasses.delay[delay],
+    'gpu-accelerated'
+  );
+};
 
-export const useIntersectionAnimation = (threshold: number = 0.1) => {
-  const [isVisible, setIsVisible] = React.useState(false)
-  const ref = React.useRef<HTMLElement>(null)
+// ✅ SIMPLE: Stagger delay calculator
+export const getStaggerDelay = (index: number, delayMs: number = 150) => ({
+  style: { animationDelay: `${index * delayMs}ms` }
+});
+
+// ✅ ESSENTIAL: Performance monitoring hook
+export const useAnimationPerformance = () => {
+  // Simple frame rate monitor
+  const [fps, setFps] = React.useState(60);
 
   React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.unobserve(entry.target)
-        }
-      },
-      { threshold }
-    )
+    let frameCount = 0;
+    let lastTime = performance.now();
 
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
+    const measureFps = () => {
+      frameCount++;
+      const currentTime = performance.now();
 
-    return () => observer.disconnect()
-  }, [threshold])
+      if (currentTime >= lastTime + 1000) {
+        setFps(Math.round((frameCount * 1000) / (currentTime - lastTime)));
+        frameCount = 0;
+        lastTime = currentTime;
+      }
 
-  return { ref, isVisible }
-}
+      requestAnimationFrame(measureFps);
+    };
+
+    requestAnimationFrame(measureFps);
+  }, []);
+
+  return { fps, isPerformant: fps >= 55 };
+};
+
+// ✅ EXPORT: Clean interface
+export default {
+  animationClasses,
+  createAnimationClass,
+  getStaggerDelay,
+  useAnimationPerformance
+};
