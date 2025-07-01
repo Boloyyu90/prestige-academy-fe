@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import { fontVariables } from '@/lib/fonts'
+import { fontVariables } from '@/shared/lib/fonts'
 import { MotionProvider } from '@/shared/providers/motion-providers'
+import { ThemeProvider } from '@/shared/providers/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="id" className="theme-transitions">
+    <html lang="id" className="theme-transitions" suppressHydrationWarning>
     <head>
       {/* ✅ DNS prefetch untuk performance */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
@@ -33,10 +34,23 @@ export default function RootLayout({
           bg-background 
           text-foreground
         `}
+      suppressHydrationWarning
     >
-    <MotionProvider>
-      {children}
-    </MotionProvider>
+    {/* ✅ CRITICAL FIX: Add ThemeProvider wrapper */}
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem={true}
+      enableTransitions={true}
+      enableSystemDetection={true}
+      disableTransitionOnChange={false}
+      storageKey="prestige-academy-theme"
+      themes={['light', 'dark', 'system']}
+    >
+      <MotionProvider>
+        {children}
+      </MotionProvider>
+    </ThemeProvider>
     </body>
     </html>
   )
