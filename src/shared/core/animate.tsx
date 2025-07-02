@@ -4,7 +4,6 @@ import React from 'react';
 import { useIntersectionObserver } from '@/shared/hooks/use-intersection-observer';
 import { cn } from '@/shared/lib/utils/cn';
 
-// ✅ SIMPLIFIED: Only essential animations
 type AnimationType =
   | 'fadeInUp'
   | 'fadeInLeft'
@@ -24,7 +23,6 @@ interface AnimateProps extends React.HTMLAttributes<HTMLDivElement> {
   as?: keyof JSX.IntrinsicElements;
 }
 
-// ✅ PURE CSS: No more Framer Motion complexity
 export const Animate = ({
                           children,
                           animation = 'fadeInUp',
@@ -47,13 +45,9 @@ export const Animate = ({
     <Component
       ref={ref}
       className={cn(
-        // Base animation class
         isIntersecting ? `animate-${animation}` : 'opacity-0',
-        // Speed modifier
         `animation-duration-${speed}`,
-        // Delay modifier
         `animation-delay-${delay}`,
-        // Performance optimization
         'gpu-accelerated',
         className
       )}
@@ -64,7 +58,6 @@ export const Animate = ({
   );
 };
 
-// ✅ SIMPLIFIED: Essential presets only
 export const FadeInUp = (props: Omit<AnimateProps, 'animation'>) =>
   <Animate animation="fadeInUp" {...props} />;
 
@@ -77,7 +70,6 @@ export const FadeInRight = (props: Omit<AnimateProps, 'animation'>) =>
 export const ScaleIn = (props: Omit<AnimateProps, 'animation'>) =>
   <Animate animation="scaleIn" speed="slow" {...props} />;
 
-// ✅ PRAGMATIC: Simple stagger for lists
 export const StaggerContainer = ({ children, className, ...props }: AnimateProps) => {
   const { ref, isIntersecting } = useIntersectionObserver({ threshold: 0.1 });
 

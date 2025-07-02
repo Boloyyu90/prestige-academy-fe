@@ -1,6 +1,3 @@
-// ================================
-// features-section.tsx - Migrated to CSS
-// ================================
 'use client';
 
 import { useState } from 'react';

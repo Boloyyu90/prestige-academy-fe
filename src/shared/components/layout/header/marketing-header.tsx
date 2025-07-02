@@ -11,6 +11,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import { useScrollProgress } from '@/shared/hooks/use-scroll-progress';
 import { useActiveSection } from '@/shared/hooks/use-active-section';
 
+// ✨ PERUBAHAN: Menambahkan link untuk #benefits dan #testimonials
 const navigation = [
   { name: 'Beranda', href: '#home' },
   { name: 'Tentang Kami', href: '#about' },
@@ -23,30 +24,21 @@ const navigation = [
 
 export function MarketingHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
-  // ✅ FIXED: Simplified useTheme destructuring - NO infinite loop triggers
-  const { theme, setTheme, resolvedTheme } = useTheme();
 
   const { isAtTop } = useScrollProgress();
   const sectionIds = navigation.map(item => item.href.substring(1));
   const activeSectionId = useActiveSection(sectionIds);
 
-  // ✅ FIXED: Single useEffect for mounting - NO dependencies that cause loops
+  // Ensure component is mounted for proper theme detection
   useEffect(() => {
     setMounted(true);
-  }, []); // ⚠️ CRITICAL: Empty dependency array
+  }, []);
 
   const handleRegisterClick = () => { window.location.href = '/register'; };
   const handleLoginClick = () => { window.location.href = '/login'; };
-
-  // ✅ FIXED: Simplified theme toggle - NO complex state updates
-  const toggleTheme = () => {
-    if (!mounted || !setTheme) return;
-
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-  };
+  const toggleTheme = () => { setTheme(theme === 'dark' ? 'light' : 'dark'); };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -59,38 +51,18 @@ export function MarketingHeader() {
     setMobileMenuOpen(false);
   };
 
-  // ✅ FIXED: Simplified theme text - NO complex logic
+  // Get dynamic theme text
   const getThemeText = () => {
     if (!mounted) return 'Mode Tema';
     return theme === 'dark' ? 'Mode Gelap' : 'Mode Terang';
   };
 
-  // ✅ FIXED: Simple loading state - NO complex rendering
-  if (!mounted) {
-    return (
-      <header className="fixed top-0 left-0 right-0 z-50">
-        <div className="bg-background/80 backdrop-blur-md border-b border-border">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-muted animate-pulse rounded" />
-                <div className="w-32 h-6 bg-muted animate-pulse rounded" />
-              </div>
-              <div className="hidden md:flex items-center space-x-4">
-                <div className="w-10 h-6 bg-muted animate-pulse rounded-full" />
-                <div className="w-20 h-10 bg-muted animate-pulse rounded-full" />
-                <div className="w-20 h-10 bg-muted animate-pulse rounded-full" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-    );
-  }
-
   return (
-    <header id="home-header" className="fixed top-0 left-0 right-0 z-50">
-      {/* Main Header Bar */}
+    <header
+      id="home-header"
+      className="fixed top-0 left-0 right-0 z-50"
+    >
+      {/* Main Header Bar dengan kondisi scroll styling */}
       <div className={cn(
         "transition-all duration-300 ease-in-out",
         !isAtTop && "bg-background/80 backdrop-blur-md border-b border-border shadow-md"
@@ -142,18 +114,17 @@ export function MarketingHeader() {
 
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center space-x-4">
-              {/* ✅ FIXED: Simple Theme Toggle */}
+              {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
                 className="relative w-10 h-6 bg-muted rounded-full p-1 transition-colors hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 aria-label="Toggle theme"
-                type="button"
               >
                 <div className={cn(
-                  'w-4 h-4 bg-background rounded-full shadow-sm transition-transform duration-300 flex items-center justify-center',
-                  resolvedTheme === 'dark' ? 'translate-x-4' : 'translate-x-0'
+                  'w-4 h-4 bg-background rounded-full shadow-sm transition-transform flex items-center justify-center',
+                  theme === 'dark' ? 'translate-x-4' : 'translate-x-0'
                 )}>
-                  {resolvedTheme === 'dark' ? (
+                  {theme === 'dark' ? (
                     <Moon className="w-2.5 h-2.5 text-muted-foreground" />
                   ) : (
                     <Sun className="w-2.5 h-2.5 text-yellow-500" />
@@ -163,6 +134,7 @@ export function MarketingHeader() {
 
               {/* Auth Buttons */}
               <div className="flex items-center space-x-3">
+                {/* Register Button */}
                 <Button
                   variant="secondary"
                   size="default"
@@ -173,6 +145,7 @@ export function MarketingHeader() {
                   Daftar
                 </Button>
 
+                {/* Login Button */}
                 <Button
                   variant="default"
                   size="default"
@@ -202,34 +175,47 @@ export function MarketingHeader() {
               </div>
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile menu button dengan animasi */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               aria-label="Toggle mobile menu"
-              type="button"
             >
               <div className="relative w-6 h-6">
-                <div className={cn(
-                  "absolute inset-0 flex items-center justify-center transition-all duration-300",
-                  mobileMenuOpen ? "scale-0 rotate-180 opacity-0" : "scale-100 rotate-0 opacity-100"
-                )}>
+                {/* ✅ FIXED: Menu Icon dengan m component */}
+                <m.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={false}
+                  animate={{
+                    scale: mobileMenuOpen ? 0 : 1,
+                    rotate: mobileMenuOpen ? -180 : 0,
+                    opacity: mobileMenuOpen ? 0 : 1
+                  }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                >
                   <Menu className="w-6 h-6" />
-                </div>
+                </m.div>
 
-                <div className={cn(
-                  "absolute inset-0 flex items-center justify-center transition-all duration-300",
-                  mobileMenuOpen ? "scale-100 rotate-0 opacity-100" : "scale-0 rotate-180 opacity-0"
-                )}>
+                {/* ✅ FIXED: Close Icon dengan m component */}
+                <m.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={false}
+                  animate={{
+                    scale: mobileMenuOpen ? 1 : 0,
+                    rotate: mobileMenuOpen ? 0 : 180,
+                    opacity: mobileMenuOpen ? 1 : 0
+                  }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                >
                   <X className="w-6 h-6" />
-                </div>
+                </m.div>
               </div>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu terpisah dari kondisi scroll styling */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <m.div
@@ -261,14 +247,14 @@ export function MarketingHeader() {
               })}
             </div>
 
-            {/* Mobile Actions */}
+            {/* Mobile Actions Container dengan rounded corners */}
             <div className="border-t border-border bg-muted/20 rounded-b-xl">
               <div className="py-4 px-4 space-y-4">
-                {/* Mobile Theme Toggle */}
+                {/* Theme Toggle Mobile dengan teks responsif */}
                 <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border/30">
                   <div className="flex items-center gap-3">
                     <div className="p-1.5 rounded-lg bg-muted">
-                      {resolvedTheme === 'dark' ? (
+                      {theme === 'dark' ? (
                         <Moon className="w-4 h-4 text-muted-foreground" />
                       ) : (
                         <Sun className="w-4 h-4 text-yellow-500" />
@@ -281,23 +267,28 @@ export function MarketingHeader() {
                   <button
                     onClick={toggleTheme}
                     className="relative w-12 h-6 bg-muted rounded-full p-1 transition-all duration-300 hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                    aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} mode`}
-                    type="button"
+                    aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                   >
-                    <div className={cn(
-                      'w-4 h-4 bg-background rounded-full shadow-sm flex items-center justify-center border border-border/20 transition-transform duration-300',
-                      resolvedTheme === 'dark' ? 'translate-x-6' : 'translate-x-0'
-                    )}>
-                      {resolvedTheme === 'dark' ? (
+                    {/* ✅ FIXED: Theme toggle animation dengan m component */}
+                    <m.div
+                      className={cn(
+                        'w-4 h-4 bg-background rounded-full shadow-sm flex items-center justify-center border border-border/20',
+                      )}
+                      animate={{
+                        x: theme === 'dark' ? 24 : 0,
+                      }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                    >
+                      {theme === 'dark' ? (
                         <Moon className="w-2.5 h-2.5 text-muted-foreground" />
                       ) : (
                         <Sun className="w-2.5 h-2.5 text-yellow-500" />
                       )}
-                    </div>
+                    </m.div>
                   </button>
                 </div>
 
-                {/* Mobile Auth Buttons */}
+                {/* Mobile Auth Buttons dengan spacing yang lebih baik */}
                 <div className="space-y-3">
                   <Button
                     variant="default"

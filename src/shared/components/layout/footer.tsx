@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Heading, Text } from '@/shared/core/typography';
-import { Animate } from '@/shared/core/animate';
+import { Animate, useAnimationDurations } from '@/shared/core/animate';
 import { Mail, Phone, Facebook, Twitter, Instagram } from 'lucide-react';
 
 const Footer = () => {
@@ -72,10 +72,9 @@ const Footer = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Container dengan max-width yang optimal */}
           <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-xl lg:max-w-3xl xl:max-w-4xl">
-            {/* ✅ CONSISTENT: Main content menggunakan Animate system */}
+            {/* ✅ CONSISTENT: Main content menggunakan Animate dengan card interaction */}
             <Animate animation="fadeInUp" speed="normal" delay="fast">
-              <div className="bg-primary rounded-t-3xl sm:rounded-t-5xl shadow-xl lg:shadow-2xl overflow-hidden interactive-card">
-                {/* Content dengan padding yang compact namun proporsional */}
+              <div className="bg-primary rounded-t-3xl sm:rounded-t-5xl overflow-hidden interactive-card">
                 <div className="px-4 py-6 sm:px-5 sm:py-7 md:px-8 md:py-8 lg:px-10 lg:py-10">
 
                   {/* Layout responsif - Mobile: stacked, MD+: 3 column grid */}
@@ -103,7 +102,6 @@ const Footer = () => {
                           </div>
                         </div>
 
-                        {/* ✅ FIXED: Contact Info menggunakan standard delay values */}
                         <div className="space-y-2 sm:space-y-3 mb-6">
                           <Animate animation="fadeInLeft" speed="fast" delay="slow" className="flex items-center gap-2 sm:gap-3 interactive">
                             <Mail className="w-4 h-4 sm:w-5 sm:h-5 text-white flex-shrink-0" />
@@ -120,7 +118,6 @@ const Footer = () => {
                           </Animate>
                         </div>
 
-                        {/* ✅ FIXED: Social Media dengan standard delay system */}
                         <div>
                           <Heading as="h4" size="sm" className="text-white mb-3 sm:mb-4 text-sm sm:text-base">
                             Sosial Media
@@ -128,8 +125,7 @@ const Footer = () => {
                           <div className="flex gap-2 sm:gap-3">
                             {socialMedia.map((social, index) => {
                               const IconComponent = social.icon;
-                              // ✅ FIXED: Menggunakan standard delay values
-                              const delaySpeed = index === 0 ? "fast" : index === 1 ? "normal" : "slow";
+                              const delaySpeed = index === 0 ? "instant" : index === 1 ? "fast" : "normal";
 
                               return (
                                 <Animate
@@ -140,7 +136,7 @@ const Footer = () => {
                                 >
                                   <Link
                                     href={social.url}
-                                    className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-white/20 rounded-lg flex items-center justify-center text-white hover:bg-white/30 transition-all duration-fast interactive"
+                                    className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 bg-white/20 rounded-lg flex items-center justify-center text-white transition-all duration-fast interactive"
                                   >
                                     <IconComponent className="w-4 h-4 sm:w-5 sm:h-5" />
                                   </Link>
@@ -152,10 +148,8 @@ const Footer = () => {
                       </div>
                     </Animate>
 
-                    {/* ✅ CONSISTENT: Services & Information - 2 Column */}
                     <div className="md:col-span-2 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
 
-                      {/* ✅ FIXED: Services Column dengan standard stagger */}
                       <Animate animation="fadeInUp" speed="normal" delay="fast">
                         <div>
                           <Heading as="h4" size="md" className="text-white mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base lg:text-lg">
@@ -163,8 +157,7 @@ const Footer = () => {
                           </Heading>
                           <ul className="space-y-3 sm:space-y-4">
                             {services.map((service, index) => {
-                              // ✅ FIXED: Menggunakan standard delay values
-                              const delaySpeed = index === 0 ? "fast" : index === 1 ? "normal" : index === 2 ? "slow" : "slow";
+                              const delaySpeed = index === 0 ? "instant" : index === 1 ? "fast" : index === 2 ? "normal" : "slow";
 
                               return (
                                 <Animate
@@ -175,9 +168,9 @@ const Footer = () => {
                                 >
                                   <Link
                                     href="#"
-                                    className="text-white hover:text-white/80 transition-all duration-fast block interactive"
+                                    className="text-white hover:text-white/80 hover:animate-pulse"
                                   >
-                                    <Text size="sm" className="text-white hover:text-white/80 transition-colors text-xs sm:text-sm leading-relaxed">
+                                    <Text size="sm" className="text-xs sm:text-sm leading-relaxed">
                                       {service}
                                     </Text>
                                   </Link>
@@ -188,7 +181,6 @@ const Footer = () => {
                         </div>
                       </Animate>
 
-                      {/* ✅ FIXED: Information Column dengan standard stagger */}
                       <Animate animation="fadeInUp" speed="normal" delay="normal">
                         <div>
                           <Heading as="h4" size="md" className="text-white mb-4 sm:mb-5 md:mb-6 text-sm sm:text-base lg:text-lg">
@@ -196,8 +188,7 @@ const Footer = () => {
                           </Heading>
                           <ul className="space-y-3 sm:space-y-4">
                             {information.map((info, index) => {
-                              // ✅ FIXED: Menggunakan standard delay values
-                              const delaySpeed = index === 0 ? "fast" : index === 1 ? "normal" : index === 2 ? "slow" : "slow";
+                              const delaySpeed = index === 0 ? "instant" : index === 1 ? "fast" : index === 2 ? "normal" : "slow";
 
                               return (
                                 <Animate
@@ -208,9 +199,9 @@ const Footer = () => {
                                 >
                                   <Link
                                     href="#"
-                                    className="text-white hover:text-white/80 transition-all duration-fast block interactive"
+                                    className="text-white hover:text-white/80 hover:animate-pulse"
                                   >
-                                    <Text size="sm" className="text-white hover:text-white/80 transition-colors text-xs sm:text-sm leading-relaxed">
+                                    <Text size="sm" className="text-xs sm:text-sm leading-relaxed">
                                       {info}
                                     </Text>
                                   </Link>
@@ -223,7 +214,6 @@ const Footer = () => {
                     </div>
                   </div>
 
-                  {/* ✅ CONSISTENT: Copyright dengan spacing responsif */}
                   <Animate animation="fadeInUp" speed="normal" delay="slow">
                     <div className="border-t border-white/20 mt-8 sm:mt-10 md:mt-8 pt-4 sm:pt-5 md:pt-6 text-center">
                       <Text size="sm" className="text-white/80 text-xs sm:text-sm">
@@ -242,3 +232,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
