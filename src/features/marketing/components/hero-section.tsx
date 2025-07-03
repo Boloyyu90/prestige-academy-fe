@@ -4,12 +4,10 @@ import { Button } from '@/shared/components/ui/button';
 import { Heading, Text } from '@/shared/core/typography';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Animate } from '@/shared/core/animate';
-
+import { Animate, HeroAnimate } from '@/shared/core/animate';
 export function HeroSection() {
   return (
     <section id="home" className="relative min-h-screen overflow-hidden pt-16">
-      {/* Background Assets */}
       <div className="absolute inset-0 z-0">
         <Animate
           animation="fadeInLeft"
@@ -22,6 +20,7 @@ export function HeroSection() {
             fill
             className="object-contain object-bottom"
             sizes="42vw"
+            priority={false}
           />
         </Animate>
 
@@ -41,12 +40,11 @@ export function HeroSection() {
         </Animate>
       </div>
 
-      {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex justify-start min-h-[calc(100vh-4rem)] pt-20 pb-8 lg:pl-32">
           <div className="w-full lg:w-[55%] xl:w-[50%]">
 
-            <Animate animation="fadeInUp" className="mb-8">
+            <HeroAnimate className="mb-8">
               <Heading
                 as="h1"
                 size="display-lg"
@@ -63,9 +61,9 @@ export function HeroSection() {
                   </span>
                 </span>
               </Heading>
-            </Animate>
+            </HeroAnimate>
 
-            <Animate animation="fadeInUp" delay="normal" className="mb-6">
+            <HeroAnimate delay={100} className="mb-6">
               <Text
                 size="md"
                 variant="muted"
@@ -73,9 +71,9 @@ export function HeroSection() {
               >
                 Prestige Academy membuka sayap menuju era cemerlangmu! Seperti Jalak Bali yang istimewa, kami mengubah pengetahuan menjadi pencerahan. Terbang tinggi bersama kami, melestarikan nilai berharga sambil menembus batas potensimu!
               </Text>
-            </Animate>
+            </HeroAnimate>
 
-            <Animate animation="fadeInUp" delay="slow">
+            <HeroAnimate delay={200}>
               <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center sm:justify-center md:justify-center lg:justify-start">
                 <Button
                   size="lg"
@@ -101,7 +99,7 @@ export function HeroSection() {
                   </Link>
                 </Button>
               </div>
-            </Animate>
+            </HeroAnimate>
           </div>
         </div>
       </div>

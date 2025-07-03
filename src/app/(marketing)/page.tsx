@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 
-// Static imports for SSG content
 import HeroSection from '@/features/marketing/components/hero-section'
 import AboutSection from '@/features/marketing/components/about-section'
 import BenefitsSection from '@/features/marketing/components/benefits-section'

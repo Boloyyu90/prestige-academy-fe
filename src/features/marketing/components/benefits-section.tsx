@@ -51,7 +51,6 @@ const BenefitsSection = () => {
     <section id="benefits" className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-24 scroll-mt-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Background Assets - Keep as is */}
         <div className="hidden lg:block absolute top-40 left-0 pointer-events-none">
           <Image
             src="/images/backgrounds/benefit-asset-top.svg"
@@ -93,7 +92,6 @@ const BenefitsSection = () => {
         </div>
 
         <div className="relative z-10 space-y-12 sm:space-y-14 md:space-y-16">
-          {/* Header */}
           <Animate animation="fadeInUp" className="text-center space-y-3 sm:space-y-4">
             <Heading
               as="h2"
@@ -111,11 +109,9 @@ const BenefitsSection = () => {
             </Heading>
           </Animate>
 
-          {/* Timeline */}
           <div className="relative max-w-xs sm:max-w-lg md:max-w-3xl lg:max-w-4xl mx-auto">
             <Card variant="default" size="lg" className="relative shadow-md overflow-hidden">
 
-              {/* Background Logo */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
                 <div className="block lg:hidden">
                   <Image
@@ -137,10 +133,8 @@ const BenefitsSection = () => {
                 </div>
               </div>
 
-              {/* Vertical Line */}
               <div className="hidden lg:block absolute top-20 bottom-20 xl:top-24 xl:bottom-24 left-1/2 w-1 -translate-x-1/2 bg-gradient-to-b from-transparent via-primary/70 to-transparent" />
 
-              {/* Benefits List */}
               <div className="relative space-y-8 sm:space-y-10 md:space-y-12 lg:space-y-16 py-6 sm:py-7 md:py-8">
                 {benefits.map((benefit, index) => (
                   <div
@@ -148,7 +142,6 @@ const BenefitsSection = () => {
                     className="relative lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-x-12 lg:items-center animate-fadeInUp"
                     style={{ animationDelay: `${index * 150}ms` }}
                   >
-                    {/* Step Circle */}
                     <div className="relative lg:col-start-2 z-10">
                       <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-16 md:h-16 lg:w-16 lg:h-16 mx-auto bg-background flex items-center justify-center rounded-full">
                         <div className="w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-14 lg:h-14 bg-primary text-white flex items-center justify-center rounded-full text-lg sm:text-xl font-bold">
@@ -157,7 +150,6 @@ const BenefitsSection = () => {
                       </div>
                     </div>
 
-                    {/* Content Block */}
                     <div className={cn(
                       "mt-4 lg:mt-0 text-center px-4 sm:px-6 md:px-8 lg:px-0",
                       index % 2 === 0

@@ -1,7 +1,5 @@
-// ✅ PRAGMATIC: Essential animation utilities only
 import { cn } from '@/shared/lib/utils/cn';
 
-// ✅ SIMPLIFIED: Core animation classes
 export const animationClasses = {
   entrance: {
     fadeInUp: 'animate-fadeInUp',
@@ -29,7 +27,6 @@ export const animationClasses = {
   }
 } as const;
 
-// ✅ HELPER: Quick animation class builder
 export const createAnimationClass = (
   animation: keyof typeof animationClasses.entrance,
   speed: keyof typeof animationClasses.speed = 'normal',
@@ -43,14 +40,11 @@ export const createAnimationClass = (
   );
 };
 
-// ✅ SIMPLE: Stagger delay calculator
 export const getStaggerDelay = (index: number, delayMs: number = 150) => ({
   style: { animationDelay: `${index * delayMs}ms` }
 });
 
-// ✅ ESSENTIAL: Performance monitoring hook
 export const useAnimationPerformance = () => {
-  // Simple frame rate monitor
   const [fps, setFps] = React.useState(60);
 
   React.useEffect(() => {
@@ -76,7 +70,6 @@ export const useAnimationPerformance = () => {
   return { fps, isPerformant: fps >= 55 };
 };
 
-// ✅ EXPORT: Clean interface
 export default {
   animationClasses,
   createAnimationClass,

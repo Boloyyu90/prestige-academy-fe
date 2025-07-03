@@ -76,7 +76,6 @@ const FeaturesSection = () => {
     return (
       <Section id="features" variant="transparent" padding="lg" className="relative overflow-hidden scroll-mt-16">
           <div className="relative z-10 space-y-8">
-              {/* Header */}
               <Animate animation="fadeInUp" className="text-center space-y-4">
                   <Heading
                     as="h2"
@@ -94,7 +93,6 @@ const FeaturesSection = () => {
               </Animate>
 
               <div className="max-w-7xl mx-auto">
-                  {/* Feature Navigation */}
                   <div className="animate-fadeInUp animation-delay-fast mb-10">
                       <div className="flex justify-center">
                           <Card variant="default" className={cn(
@@ -127,13 +125,10 @@ const FeaturesSection = () => {
                       </div>
                   </div>
 
-                  {/* Feature Content */}
                   <div className={cn(
                     "flex flex-col gap-8",
                     "lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center"
                   )}>
-
-                      {/* Visual Mockup */}
                       <Animate
                         animation="fadeInLeft"
                         className="order-1 lg:order-1 flex items-center justify-center">
@@ -147,7 +142,6 @@ const FeaturesSection = () => {
                           />
                       </Animate>
 
-                      {/* Content Description */}
                       <Animate animation="fadeInRight" className="order-2 lg:order-2 space-y-8">
                           <div className="space-y-4">
                               <Heading as="h3" size="display-sm" className="leading-tight">

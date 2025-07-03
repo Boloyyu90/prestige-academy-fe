@@ -2,25 +2,22 @@
 
 import React from 'react';
 import { useIntersectionObserver } from '@/shared/hooks/use-intersection-observer';
+import { useMotionConfig } from '@/shared/providers/motion-provider';
 import { cn } from '@/shared/lib/utils/cn';
 
-type AnimationType =
-  | 'fadeInUp'
-  | 'fadeInLeft'
-  | 'fadeInRight'
-  | 'scaleIn';
-
+type AnimationType = 'fadeInUp' | 'fadeInLeft' | 'fadeInRight' | 'scaleIn';
 type AnimationSpeed = 'fast' | 'normal' | 'slow';
 
 interface AnimateProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   animation?: AnimationType;
   speed?: AnimationSpeed;
-  delay?: AnimationSpeed;
+  delay?: AnimationSpeed | number;
   className?: string;
   threshold?: number;
   triggerOnce?: boolean;
   as?: keyof JSX.IntrinsicElements;
+  critical?: boolean;
 }
 
 export const Animate = ({
@@ -32,6 +29,7 @@ export const Animate = ({
                           threshold = 0.1,
                           triggerOnce = true,
                           as = 'div',
+                          critical = false,
                           ...props
                         }: AnimateProps) => {
   const { ref, isIntersecting } = useIntersectionObserver({
@@ -39,18 +37,32 @@ export const Animate = ({
     triggerOnce
   });
 
+  const { reducedMotion, mounted } = useMotionConfig();
   const Component = as as any;
+
+  const shouldAnimate = critical ? true : isIntersecting;
+
+  const finalShouldAnimate = reducedMotion ? true : shouldAnimate;
+
+  const delayValue = typeof delay === 'number' ? `${delay}ms` : undefined;
+  const delayClass = typeof delay === 'string' ? `animation-delay-${delay}` : '';
 
   return (
     <Component
-      ref={ref}
+      ref={critical ? undefined : ref}
       className={cn(
-        isIntersecting ? `animate-${animation}` : 'opacity-0',
+        finalShouldAnimate ? `animate-${animation}` : 'opacity-0',
         `animation-duration-${speed}`,
-        `animation-delay-${delay}`,
+        delayClass,
         'gpu-accelerated',
+        reducedMotion && 'animate-none opacity-100',
         className
       )}
+      style={{
+        animationDelay: delayValue,
+        ...(critical && { opacity: 1 }),
+        ...(!mounted && critical && { opacity: 1 })
+      }}
       {...props}
     >
       {children}
@@ -70,19 +82,46 @@ export const FadeInRight = (props: Omit<AnimateProps, 'animation'>) =>
 export const ScaleIn = (props: Omit<AnimateProps, 'animation'>) =>
   <Animate animation="scaleIn" speed="slow" {...props} />;
 
-export const StaggerContainer = ({ children, className, ...props }: AnimateProps) => {
-  const { ref, isIntersecting } = useIntersectionObserver({ threshold: 0.1 });
+export const HeroAnimate = ({ children, ...props }: Omit<AnimateProps, 'critical'>) => (
+  <Animate critical={true} animation="fadeInUp" speed="normal" {...props}>
+    {children}
+  </Animate>
+);
+
+export const ContentAnimate = ({ children, ...props }: AnimateProps) => (
+  <Animate critical={false} {...props}>
+    {children}
+  </Animate>
+);
+
+export const StaggerContainer = ({
+                                   children,
+                                   className,
+                                   staggerDelay = 150,
+                                   animation = 'fadeInUp',
+                                   speed = 'normal',
+                                   ...props
+                                 }: AnimateProps & { staggerDelay?: number }) => {
+  const { ref, isIntersecting } = useIntersectionObserver({
+    threshold: 0.1,
+    triggerOnce: true
+  });
+
+  const { reducedMotion } = useMotionConfig();
 
   return (
     <div ref={ref} className={className} {...props}>
       {React.Children.map(children, (child, index) => (
         <div
+          key={index}
           className={cn(
-            isIntersecting ? 'animate-fadeInUp' : 'opacity-0',
-            'animation-duration-normal'
+            isIntersecting ? `animate-${animation}` : 'opacity-0',
+            `animation-duration-${speed}`,
+            'gpu-accelerated',
+            reducedMotion && 'animate-none opacity-100'
           )}
           style={{
-            animationDelay: isIntersecting ? `${index * 150}ms` : '0ms'
+            animationDelay: isIntersecting && !reducedMotion ? `${index * staggerDelay}ms` : '0ms'
           }}
         >
           {child}
@@ -90,4 +129,15 @@ export const StaggerContainer = ({ children, className, ...props }: AnimateProps
       ))}
     </div>
   );
+};
+
+export default {
+  Animate,
+  FadeInUp,
+  FadeInLeft,
+  FadeInRight,
+  ScaleIn,
+  HeroAnimate,
+  ContentAnimate,
+  StaggerContainer
 };

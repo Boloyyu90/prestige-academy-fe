@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { fontVariables } from '@/shared/lib/fonts'
-import { MotionProvider } from '@/shared/providers/motion-providers'
+import { MotionProvider } from '@/shared/providers/motion-provider'
 import { ThemeProvider } from '@/shared/providers/theme-provider'
 import './globals.css'
 
@@ -18,10 +18,7 @@ export default function RootLayout({
   return (
     <html lang="id" className="theme-transitions" suppressHydrationWarning>
     <head>
-      {/* ✅ DNS prefetch untuk performance */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-
-      {/* ✅ Preconnect untuk font loading optimization */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
     </head>
@@ -36,7 +33,6 @@ export default function RootLayout({
         `}
       suppressHydrationWarning
     >
-    {/* ✅ CRITICAL FIX: Add ThemeProvider wrapper */}
     <ThemeProvider
       attribute="class"
       defaultTheme="system"
@@ -47,7 +43,7 @@ export default function RootLayout({
       storageKey="prestige-academy-theme"
       themes={['light', 'dark', 'system']}
     >
-      <MotionProvider>
+      <MotionProvider respectReducedMotion={true}>
         {children}
       </MotionProvider>
     </ThemeProvider>

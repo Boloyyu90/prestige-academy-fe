@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-// ✅ FIXED: Ganti motion dengan m untuk LazyMotion compatibility
 import { m, HTMLMotionProps } from 'framer-motion';
 import { useIntersectionObserver } from '@/shared/hooks/use-intersection-observer';
 import { cn } from "@/shared/lib/utils/cn";

@@ -57,7 +57,6 @@ const FaqSection = () => {
 
   return (
     <Section id="faq" variant="default" padding="default" container="narrow">
-      {/* Header - Migrated to CSS */}
       <Animate animation="fadeInUp">
         <div className="text-center mb-8 md:mb-12">
           <Heading as="h2" size="display-md" className="mb-4">
@@ -68,7 +67,6 @@ const FaqSection = () => {
         </div>
       </Animate>
 
-      {/* FAQ Items - Mixed approach */}
       <div className="space-y-3 pb-12">
         {faqs.map((faq, index) => (
           <div
@@ -77,7 +75,6 @@ const FaqSection = () => {
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="group">
-              {/* ✅ HYBRID: Keep Framer Motion for interactive card hover */}
               <m.div
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
@@ -91,7 +88,6 @@ const FaqSection = () => {
                     : "border-border bg-card hover:shadow-sm hover:border-primary/30"
                 )}>
 
-                  {/* Button with CSS transitions for colors, Framer for subtle hover */}
                   <m.button
                     className="w-full p-4 md:p-5 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset rounded-lg"
                     onClick={() => toggleFaq(faq.id)}
@@ -106,7 +102,6 @@ const FaqSection = () => {
                       {faq.question}
                     </Text>
 
-                    {/* ✅ OPTIMIZED: CSS-only chevron rotation */}
                     <div className={cn(
                       "flex-shrink-0 transition-transform duration-fast",
                       openFaq === faq.id ? "rotate-180" : "rotate-0"
@@ -118,7 +113,6 @@ const FaqSection = () => {
                     </div>
                   </m.button>
 
-                  {/* ✅ KEEP: Framer Motion for complex height animation (worth it for UX) */}
                   <AnimatePresence>
                     {openFaq === faq.id && (
                       <m.div
@@ -127,7 +121,7 @@ const FaqSection = () => {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{
                           duration: 0.35,
-                          ease: [0.25, 0.46, 0.45, 0.94], // CSS variable easing
+                          ease: [0.25, 0.46, 0.45, 0.94],
                           opacity: { duration: 0.25 }
                         }}
                         className="overflow-hidden"

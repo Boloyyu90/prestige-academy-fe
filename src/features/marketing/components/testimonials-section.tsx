@@ -80,7 +80,6 @@ const TestimonialsSection = () => {
     >
       <div className="space-y-16">
 
-        {/* Header - Migrated to CSS */}
         <Animate animation="fadeInUp" className="text-center space-y-4">
           <Heading as="h2" size="display-md" align="center">
             <span className="text-3xl sm:text-4xl md:text-4xl">
@@ -97,18 +96,15 @@ const TestimonialsSection = () => {
           </Text>
         </Animate>
 
-        {/* Testimonials Container - Hybrid approach */}
         <div className="animate-fadeInUp animation-delay-fast">
           <div className="relative px-4 sm:px-8 md:px-12">
-            {/* Spacer untuk badge position yang keluar */}
             <div className="h-8 mb-4"></div>
 
-            {/* ✅ KEEP: Framer Motion Carousel (Complex positioning worth the library) */}
             <div className="relative h-[550px] md:h-[500px] overflow-visible">
               <div className="absolute inset-0 flex items-center justify-center">
                 {testimonials.map((testimonial, index) => {
                   const offset = (index - currentIndex + testimonials.length) % testimonials.length;
-                  const position = offset - 1; // -1 (left), 0 (center), 1 (right)
+                  const position = offset - 1;
                   const isInFrame = offset < 3;
 
                   return (
@@ -129,16 +125,14 @@ const TestimonialsSection = () => {
                         type: 'spring',
                         stiffness: 200,
                         damping: 25,
-                        duration: 0.6 // Semantic normal duration
+                        duration: 0.6
                       }}
                     >
-                      {/* Image Card - CSS hover effects */}
                       <Card
                         variant="default"
                         animation="hover"
                         className="relative w-full mb-8 rounded-3xl"
                       >
-                        {/* Position Badge */}
                         <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
                           <Badge
                             variant="default"
@@ -162,7 +156,6 @@ const TestimonialsSection = () => {
                             />
                           </div>
 
-                          {/* Name Badge */}
                           <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-10">
                             <Badge
                               variant="outline"
@@ -175,12 +168,10 @@ const TestimonialsSection = () => {
                         </div>
                       </Card>
 
-                      {/* Content Card - CSS effects */}
                       <Card
                         variant="glass"
                         className="w-full max-w-md rounded-2xl p-6 text-center"
                       >
-                        {/* Rating Stars */}
                         <div className="flex justify-center mb-3">
                           {[...Array(5)].map((_, i) => (
                             <Star
@@ -195,7 +186,6 @@ const TestimonialsSection = () => {
                           ))}
                         </div>
 
-                        {/* Testimonial Quote */}
                         <Text
                           variant="muted"
                           size="sm"
@@ -210,10 +200,8 @@ const TestimonialsSection = () => {
               </div>
             </div>
 
-            {/* Spacer untuk name badge yang keluar */}
             <div className="h-8 mt-4"></div>
 
-            {/* Navigation Controls - CSS hover effects */}
             <div className="flex justify-center items-center gap-6 mt-8 relative z-30">
               <Button
                 variant="outline"
@@ -226,7 +214,6 @@ const TestimonialsSection = () => {
                 <ChevronLeft className="w-5 h-5" />
               </Button>
 
-              {/* Pagination Dots - CSS interactions */}
               <div className="flex justify-center gap-3">
                 {testimonials.map((_, index) => (
                   <button

@@ -61,7 +61,6 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
     )}
     animation="hover"
   >
-    {/* Popular Badge */}
     {pkg.popular && (
       <div className="absolute -right-12 top-8 z-20">
         <div className="bg-secondary px-12 py-2 rotate-45 shadow-lg">
@@ -73,7 +72,6 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
     )}
 
     <div className="flex flex-col h-full">
-      {/* Header Banner */}
       <div className="relative h-32 overflow-hidden mb-6 rounded-3xl border border-gray-200">
         <Image
           src="/images/illustrations/card-banner.svg"
@@ -84,7 +82,6 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
       </div>
 
       <div className="flex-1 space-y-6">
-        {/* Package Info */}
         <div className="space-y-3">
           <div className="flex justify-between items-start">
             <Heading as="h3" size="md" className="text-foreground">
@@ -103,10 +100,8 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
           </Text>
         </div>
 
-        {/* Price Display */}
         <PriceDisplay price={pkg.price} originalPrice={pkg.originalPrice} />
 
-        {/* Features List */}
         <div className="border-t border-border flex-1 pt-6 space-y-4">
           {MASTER_FEATURES.map((feature) => {
             const isIncluded = pkg.includedFeatureIds.includes(feature.id);
@@ -127,7 +122,6 @@ const PackageCard = ({ pkg, index }: { pkg: Package; index: number }) => (
           })}
         </div>
 
-        {/* CTA Button */}
         <div className="pt-4">
           <Button
             className="w-full group"
@@ -188,7 +182,6 @@ const PackagesSection = () => {
   return (
     <Section id="packages" variant="default" padding="lg" container="default">
       <div className="space-y-16">
-        {/* Header */}
         <Animate animation="fadeInUp" className="text-center space-y-4">
           <Heading
             as="h2"
@@ -206,7 +199,6 @@ const PackagesSection = () => {
           </Text>
         </Animate>
 
-        {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
           {packages.map((pkg, index) => (
             <div
@@ -219,7 +211,6 @@ const PackagesSection = () => {
           ))}
         </div>
 
-        {/* Bottom CTA */}
         <Animate animation="fadeInUp" delay="normal" className="text-center">
           <Text size="sm" variant="muted" className="mb-4">
             *Syarat dan ketentuan berlaku. Garansi berlaku dengan ketentuan tertentu.
